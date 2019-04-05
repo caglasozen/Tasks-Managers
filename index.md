@@ -18,5 +18,7 @@ This webpage will be used to publish the documents of the term project of *CS353
 
 ## Project Documents
 [Project Proposal](https://caglasozen.github.io/Tasks-Managers/docs/Proposal.pdf "Proposal")
+[Project Design Report](https://caglasozen.github.io/Tasks-Managers/docs/DesignReport.pdf "DesignReport")
+
 
 
