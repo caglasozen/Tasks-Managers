@@ -8,16 +8,6 @@
 		header('Location: form.php');
 	}
 	
-	function transferMoney() {
-		echo "You are being directed to the money transfer page...";
-		
-		global $user;
-		global $c_id;
-		
-		$_SESSION['user_name'] = $user;
-		$_SESSION['password'] = $c_id;
-		header('Location: transfer.php');
-	}
 	
 	$user = $_SESSION['user_name'];
 	$userPrint = strtoupper($user);
@@ -25,13 +15,13 @@
 	
 	//Get the variables you may need from the database using the email you got in the login page.
 	
-	$query = "SELECT * FROM User WHERE email =  '".$c_id."' ";
+	$query = "SELECT * FROM User WHERE email =  '".$user."' ";
 	$result = mysqli_query($mysqli,$query);
-	$row = mysqli_fetch_array($result)
-	$email = $user
-	$user = $row['ID']
-	$f_name =  $row['first_name']
-	$l_name =  $row['last_name']
+	$row = mysqli_fetch_array($result);
+	$email = $row['email'];
+	$user = $row['ID'];
+	$f_name =  $row['first_name'];
+	$l_name =  $row['last_name'];
 	
 	
 	if(!isset($user)){
@@ -42,30 +32,36 @@
 		logOut();
 	}
 	
-	?>
+?>
 
 <!doctype html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="index_style.css">
 </head>
 <body>
-<center> <h1>Welcome <?php echo f_name.l_name ?> </h1></center>
+<center> <h1>Welcome <?php echo $f_name.$l_name ?> </h1></center>
 
 <h2>Projects</h2>
 
 <div class= "projects" > <center>
-<?php
+<!-- <?php
 	global $mysqli;
 	global $user;
 	$query_list = "WITH TeamMember( team_ID ) AS ( SELECT team_ID FROM Member WHERE userID = '".$user."' ) SELECT project_ID, name FROM TeamMember as TM, Team  as T WHERE T.team_ID = TM.team_ID";
 	$result_list = mysqli_query($mysqli,$query_list);
 	while ($row_list = mysqli_fetch_array($result_list)) { ?>
-<div>
+<div class="radioLeft">
 <input type="radio" name="rad_list" id="<?php $row_list['project_ID']?>" value = "<?php echo $row_list['project_ID']?>" >
 <label for="<?php $row_list['project_ID']?>"><?php echo $row_list['project_ID']; ?> </label>
 </div>
-<?php } ?>
+<?php } ?> -->
+
+<div class="radioLeft">
+<input type="radio" name="rad_list" id="test" value = "test" >
+<label for="test"><?php echo test ?> </label>
+</div>
+
 </div>
 
 
