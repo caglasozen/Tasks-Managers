@@ -1,73 +1,122 @@
+
+
 <?php
 	include "config.php";
 	session_start();
-	
+
 	function logOut() {
 		echo "You are logging out of the system...";
 		session_destroy();
 		header('Location: form.php');
 	}
-	
-	
-	$user = $_SESSION['user_name'];
-	$userPrint = strtoupper($user);
-	$c_id = $_SESSION['password'];
-	
-	//Get the variables you may need from the database using the email you got in the login page.
-	
-	$query = "SELECT * FROM User WHERE email =  '".$user."' ";
-	$result = mysqli_query($mysqli,$query);
-	$row = mysqli_fetch_array($result);
-	$email = $row['email'];
-	$user = $row['ID'];
+
+	$user_id = $_SESSION['user_id'];
+
+
+	//Fetching user information.
+	$query_user_info = "SELECT * FROM User WHERE id = $user_id";
+	$result = mysqli_query($mysqli, $query_user_info);
+	$row = mysqli_fetch_assoc($result);
+
 	$f_name =  $row['first_name'];
 	$l_name =  $row['last_name'];
+
+    //Fetching projects.
+    $query_projects = "(select distinct project.name from workon, project 
+                            where (manager_id = $user_id OR leader_id = $user_id) AND project.id = workon.project_id )
+                        union (select distinct project.name from workon, member, project 
+                            where member.member_id = $user_id AND member.team_id = workon.team_id AND project.id = workon.project_id);";
+    $result = mysqli_query($mysqli, $query_projects);
+
+    $project_num = mysqli_num_rows($result);
+    $project_names = [];
+    $selected_project = -1;
+
+    if($project_num > 0){
+
+        while($row = mysqli_fetch_assoc($result)) {
+            $project_names[] = $row['name'];
+        }
+
+    }
+
+    //TODO initial screen with 0 projects.
+    else {
+
+    }
 	
-	
-	if(!isset($user)){
+	if(!isset($user_id)){
 		header('Location: form.php');
 	}
 	
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
 	}
+
 	
 ?>
 
-<!doctype html>
+
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="index_style.css">
-</head>
-<body>
-<center> <h1>Welcome <?php echo $f_name.$l_name ?> </h1></center>
+    <head>
+        <link rel="stylesheet" type="text/css" href="index_style.css">
+        <script>
+            function p_button_click(index) {
+                var prev_selected = <?php echo $selected_project ?>
+                <?php echo $selected_project= index; ?>
 
-<h2>Projects</h2>
+                var buttons = document.querySelectorAll(".projectButton");
+                alert("prev: " + prev_selected + " index: " + index);
+                if(prev_selected !== index){
+                    buttons[index].style.backgroundColor = "#ff0000";
+                    buttons[prev_selected].style.backgroundColor = "#4286f4";
+                }
 
-<div class= "projects" > <center>
-<!-- <?php
-	global $mysqli;
-	global $user;
-	$query_list = "WITH TeamMember( team_ID ) AS ( SELECT team_ID FROM Member WHERE userID = '".$user."' ) SELECT project_ID, name FROM TeamMember as TM, Team  as T WHERE T.team_ID = TM.team_ID";
-	$result_list = mysqli_query($mysqli,$query_list);
-	while ($row_list = mysqli_fetch_array($result_list)) { ?>
-<div class="radioLeft">
-<input type="radio" name="rad_list" id="<?php $row_list['project_ID']?>" value = "<?php echo $row_list['project_ID']?>" >
-<label for="<?php $row_list['project_ID']?>"><?php echo $row_list['project_ID']; ?> </label>
-</div>
-<?php } ?> -->
+            }
+        </script>
+    </head>
 
-<div class="radioLeft">
-<input type="radio" name="rad_list" id="test" value = "test" >
-<label for="test"><?php echo test ?> </label>
-</div>
+    <body>
 
-</div>
+        <h1>Tasks&Managers</h1>
+
+        <h2>Welcome <?php echo $f_name . " " . $l_name ?> </h2>
+
+        <!-- Projects of the User -->
+        <h3>Projects</h3>
+
+        <div id="projects">
+            <?php
+
+            for($i = 0; $i < $project_num; $i++){
+                echo '<button class="projectButton" onclick="p_button_click(' . $i .')"><span class="projectSpan">';
+                echo $project_names[$i];
+                echo '</span></button>';
+            }
+            ?>
+        </div>
+
+        <!-- Teams of the project -->
+        <h3>Project Teams</h3>
+        <ul>
+
+        </ul>
 
 
-<form method="post">  <center>
-<input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
-</form>
+        <!-- Boards of the team -->
+        <table>
+            <tr>
+                <th>Team Boards</th>
+            </tr>
+        </table>
 
-</body>
+
+
+
+        <form method="post">
+            <input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
+        </form>
+
+    </body>
 </html>

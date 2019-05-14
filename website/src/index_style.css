@@ -54,3 +54,54 @@ th {
 {
     text-align:left;
 }
+
+#projects{
+  height: 100px;
+  width: 250px;
+  border: 2px solid red;
+}
+
+.projectButton{
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #4286f4;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 5px;
+  width: 150px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  text-transform: capitalize;
+}
+
+.projectButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.projectButton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -30px;
+  transition: 0.5s;
+}
+
+.projectButton:hover span {
+  padding-right: 15px;
+}
+
+.projectButton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.projectSpan {
+  color: #FFFFFF;
+}
