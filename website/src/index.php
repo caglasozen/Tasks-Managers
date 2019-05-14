@@ -57,22 +57,27 @@
 ?>
 
 
+
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="index_style.css">
         <script>
-            function p_button_click(index) {
-                var prev_selected = <?php echo $selected_project ?>
-                <?php echo $selected_project= index; ?>
+            var projectNum = "<?php echo $project_num ?>";
+            var buttons = [];
 
-                var buttons = document.querySelectorAll(".projectButton");
-                alert("prev: " + prev_selected + " index: " + index);
-                if(prev_selected !== index){
-                    buttons[index].style.backgroundColor = "#ff0000";
-                    buttons[prev_selected].style.backgroundColor = "#4286f4";
+            var selected_button;
+
+            function p_button_click(index) {
+
+                var css_buttons = document.querySelectorAll(".projectButton");
+                selected_button = index;
+
+                for(var i = 0; i < projectNum; i++){
+                    css_buttons[i].style.backgroundColor = "#4286f4";
                 }
 
+                css_buttons[index].style.backgroundColor = "#ff0000";
             }
         </script>
     </head>

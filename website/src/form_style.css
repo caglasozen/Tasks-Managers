@@ -1,51 +1,51 @@
 input[type=button], input[type=submit], input[type=reset] {
-background-color: #4286f4;
-border: none;
-color: white;
-font-family: arial, sans-serif;
-padding: 8px 16px;
-margin: 12px 12px;
+    background-color: #4286f4;
+    border: none;
+    color: white;
+    font-family: arial, sans-serif;
+    padding: 8px 16px;
+    margin: 12px 12px;
 }
 
 body{ 
-text-align:right;
-background-color: rgb(240,240,240);
-font-family: arial, sans-serif, italic;
-margin: 50px 400px;
+    text-align:right;
+    background-color: rgb(240,240,240);
+    font-family: arial, sans-serif, italic;
+    margin: 50px 400px;
 }
 
 h1 {
-  color: navy;
-  font-family: arial, sans-serif;
-  margin-left: 20px;
+    color: navy;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
 }
 
 h1 {
-  color: #4286f4;
-  font-family: arial, sans-serif;
-  margin-left: 20px;
+    color: #4286f4;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 th, td {
-  text-align: left;
-  font-family: arial, sans-serif;
-  padding: 5px;
+    text-align: left;
+    font-family: arial, sans-serif;
+    padding: 5px;
 }
 
 th {
-  background-color: #4286f4;
-  color: white;
+    background-color: #4286f4;
+    color: white;
 }
 
 .center {
-  position: absolute;
-  right: 100px;
-  left: 100px;
-  border: 3px solid #73AD21;
-  padding: 10px;
+    position: absolute;
+    right: 100px;
+    left: 100px;
+    border: 3px solid #73AD21;
+    padding: 10px;
 }
