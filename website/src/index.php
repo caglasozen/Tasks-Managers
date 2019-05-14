@@ -78,6 +78,8 @@
                 }
 
                 css_buttons[index].style.backgroundColor = "#ff0000";
+
+
             }
         </script>
     </head>
