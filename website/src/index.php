@@ -21,6 +21,8 @@
 	$f_name =  $row['first_name'];
 	$l_name =  $row['last_name'];
 
+    $project_name = $project_domain = $project_issue = $project_due = $project_desc = $project_budget = "";
+
     //Fetching projects.
     $query_projects = "(select distinct project.name from workon, project 
                             where (manager_id = $user_id OR leader_id = $user_id) AND project.id = workon.project_id )
@@ -30,7 +32,6 @@
 
     $project_num = mysqli_num_rows($result);
     $project_names = [];
-    $selected_project = -1;
 
     if($project_num > 0){
 
@@ -52,6 +53,24 @@
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
 	}
+
+	if(array_key_exists('p_button', $_POST)){
+        $selected_project_index = $_POST['p_button'];
+        $selected_project_name = $project_names[$selected_project_index];
+
+        $query_project_info = "select * from project where name like '$selected_project_name';";
+        $result = mysqli_query($mysqli, $query_project_info);
+
+        $row = mysqli_fetch_assoc($result);
+
+        $project_name = $row['name'];
+        $project_domain = $row['app_domain'];
+        $project_issue = $row['issue_date'];
+        $project_due = $row['due_date'];
+        $project_desc = $row['description'];
+        $project_budget = $row['budget'];
+
+    }
 
 	
 ?>
@@ -79,7 +98,6 @@
 
                 css_buttons[index].style.backgroundColor = "#ff0000";
 
-
             }
         </script>
     </head>
@@ -93,15 +111,36 @@
         <!-- Projects of the User -->
         <h3>Projects</h3>
 
-        <div id="projects">
+        <form action="index.php" method="post" id="projects">
             <?php
 
+
+            //TODO: Figure out red color issue.
             for($i = 0; $i < $project_num; $i++){
-                echo '<button class="projectButton" onclick="p_button_click(' . $i .')"><span class="projectSpan">';
-                echo $project_names[$i];
-                echo '</span></button>';
+                if(array_key_exists('p_button', $_POST) && $i == $selected_project_index){
+
+                    echo '<button id ="selectedButton" name="p_button" value="'. $i . '" class="projectButton" type="submit" onclick="p_button_click(' . $i .')"><span class="projectSpan">';
+                    echo $project_names[$i];
+                    echo '</span></button>';
+                } else{
+                    
+                    echo '<button name="p_button" value="'. $i . '" class="projectButton" type="submit" onclick="p_button_click(' . $i .')"><span class="projectSpan">';
+                    echo $project_names[$i];
+                    echo '</span></button>';
+                }
+
             }
             ?>
+        </form>
+
+        <!-- Project Information -->
+        <div>
+            Name: <?php echo "$project_name"; ?>
+            Description: <?php echo "$project_desc"; ?>
+            Issue Date: <?php echo "$project_issue"; ?>
+            App Domain: <?php echo "$project_domain"; ?>
+            Due Date: <?php echo "$project_due"; ?>
+            Budget: <?php echo "$project_budget"; ?>
         </div>
 
         <!-- Teams of the project -->
