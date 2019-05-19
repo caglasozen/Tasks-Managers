@@ -309,9 +309,7 @@
 
                 ?>
         </div>
-        <?php
-            echo 'sex';
-        ?>
+
         <!--
         <script>
             function openForm() {
