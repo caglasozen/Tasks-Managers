@@ -123,7 +123,6 @@
         else{
 
         }
-
     }
 
 
@@ -147,6 +146,21 @@
             }
         }
 
+	    $query_team_leader = "select leader_id from workon where team_id = $selected_team_id;";
+	    $result = mysqli_query($mysqli, $query_team_leader);
+
+	    if(mysqli_num_rows($result) > 0){
+	        $row = mysqli_fetch_assoc($result);
+	        if($user_id == $row['leader_id'] && $user_level !=2){
+	            $user_level = 1;
+            }
+	        else if($user_level != 2){
+	            $user_level = 0;
+            }
+
+        }
+
+
 	    //TODO: No Boards case
 	    else {
 
@@ -167,8 +181,22 @@
     <body>
 
         <h1>Tasks&Managers</h1>
-
         <h2>Welcome <?php echo $f_name . " " . $l_name ?> </h2>
+
+        <h2>Title:
+            <?php
+                if($user_level == 0){
+                    echo 'Standard User';
+                }
+                else if($user_level == 1){
+                    echo 'Team Leader';
+                }
+                else if($user_level == 2){
+                    echo 'Manager';
+                }
+
+            ?>
+        </h2>
 
         <!-- Projects of the User -->
         <div class="projects">
@@ -210,21 +238,20 @@
 
             <?php
                 //user is the manager.
-                if($user_level == 2){
-                    echo '<form method="post">';
-                    for($i = 0; $i < $number_of_teams; $i++){
+                echo '<form method="post">';
+                for($i = 0; $i < $number_of_teams; $i++){
 
-                        if($i == $selected_team_index){
-                            echo '<button id="selectedButton" name="team_button" value="'. $i . '" class="projectButton" type="submit">';
-                            echo '<span>' . $project_team_names[$i] . '</span>';
-                        }
-                        else {
-                            echo '<button name="team_button" value="'. $i . '" class="projectButton" type="submit">';
-                            echo '<span>' . $project_team_names[$i] . '</span>';
-                        }
+                    if($i == $selected_team_index){
+                        echo '<button id="selectedButton" name="team_button" value="'. $i . '" class="projectButton" type="submit">';
+                        echo '<span>' . $project_team_names[$i] . '</span>';
                     }
-                    echo '</form>';
+                    else {
+                        echo '<button name="team_button" value="'. $i . '" class="projectButton" type="submit">';
+                        echo '<span>' . $project_team_names[$i] . '</span>';
+                    }
                 }
+                echo '</form>';
+
                 //TODO: other user types screen.
             ?>
         </div>
@@ -235,18 +262,32 @@
             <h3>Boards</h3>
 
                 <?php
-                    for($i = 0; $i < $number_of_boards; $i++){
+                    if($number_of_boards > 0){
 
-                        echo '<label>';
-                        echo '<input type="radio" name="boards"/>';
-                        echo '<span>' . $board_names[$i] . '</span><br>' ;
-                        echo '</label>';
+                        if($user_level == 2){
+                            echo '<form action="board_manager.php" method="post">';
+                        }
+                        else if ($user_level == 1){
+                            echo '<form action="board_leader.php" method="post">';
+                        }
+                        else {
+                            echo '<form action="board_user.php" method="post">';
+                        }
+
+                        for($i = 0; $i < $number_of_boards; $i++){
+
+                            echo '<input type="radio" name="board_id" value="' . $board_ids[$i] .'"/>';
+                            echo '<span>' . $board_names[$i] . '</span><br>' ;
+                        }
+
+                        echo '<input type="submit" name="homepage_setup" value="Go to the board!"/>';
+                        echo '<input type="hidden" name="project_id" value="' . $selected_project_id . '" />';
+                        echo '<input type="hidden" name="user_id" value="' . $user_id . '" />';
+                        echo '</form>';
                     }
+
                 ?>
         </div>
-
-
-
 
         <form method="post">
             <input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
