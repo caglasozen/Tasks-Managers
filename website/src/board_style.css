@@ -1,0 +1,160 @@
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4286f4;
+    border: none;
+    color: white;
+    font-family: arial, sans-serif;
+    padding: 8px 16px;
+    margin: 12px 12px;
+}
+
+body{
+    text-align:left;
+    background-color: rgb(240,240,240);
+    font-family: arial, sans-serif, italic;
+    margin: 50px 400px;
+}
+
+h1 {
+    color: navy;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
+}
+
+h1 {
+    color: #4286f4;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    font-family: arial, sans-serif;
+    padding: 5px;
+}
+
+th {
+    background-color: #4286f4;
+    color: white;
+}
+
+.center {
+    position: absolute;
+    right: 100px;
+    left: 100px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.radioLeft
+{
+    text-align:left;
+}
+
+#projects{
+    height: 100px;
+    width: 250px;
+    border: 2px solid red;
+}
+
+.projectButton{
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #4286f4;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    text-transform: capitalize;
+}
+
+.projectButton span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.logOutButton {
+    position: fixed;
+    bottom: 1550px;
+    right: 10px; 
+}
+
+.goBackButton {
+      position: fixed;
+    bottom: 1500px;
+    right: 10px; 
+
+}
+
+.projectButton:hover span {
+    padding-right: 15px;
+}
+
+.projectButton:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.projectSpan {
+    color: #FFFFFF;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+.boardBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    padding-top: 120px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 0 10px;
+    overflow: scroll;
+}
+
+/* Float four columns side by side */
+.column {
+  bottom: 700px;
+  float: left;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 20%;
+  padding: 0 10px;
+  overflow: scroll;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  overflow: scroll;
+}
