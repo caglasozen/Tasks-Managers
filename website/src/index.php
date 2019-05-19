@@ -286,8 +286,40 @@
                         echo '</form>';
                     }
 
+                    //create boards pop-up.
+                /*
+                    if($user_level == 1){
+                        echo '<button class="open-button" onclick="openForm()">Open Form</button>';
+
+                        echo '<div class="create_board" id="create_board">';
+                        echo '<form action="/action_page.php" class="form-container">';
+                        echo '<h1>Login</h1>';
+                        echo '<label for="email"><b>Email</b></label>';
+                        echo '<input type="text" placeholder="Enter Email" name="email" required>';
+                        echo '<label for="psw"><b>Password</b></label>';
+                        echo '<input type="password" placeholder="Enter Password" name="psw" required>';
+                        echo '<button type="submit" class="btn">Login</button>';
+                        echo '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>';
+                        echo '</form>';
+                        echo '</div>';
+
+
+                    }
+                */
+
                 ?>
         </div>
+        <!--
+        <script>
+            function openForm() {
+                document.getElementById("myForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+            }
+        </script>
+        -->
 
         <form method="post">
             <input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
