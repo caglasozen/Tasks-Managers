@@ -92,8 +92,8 @@ th {
 
 .gobackButton {
    position:fixed;
-   right:10px;
-   top:70px;
+   right:90px;
+   top:25px;
    }
 
 .projectButton:hover span {

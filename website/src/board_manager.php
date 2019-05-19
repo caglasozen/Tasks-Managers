@@ -15,7 +15,6 @@
 	
 	function insertList()
 	{
-		
 		global $newListName;
 		global $newListDesc;
 		global $newListDue;
@@ -31,13 +30,50 @@
 		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
-		if($flag === null  ){
+		if($flag === null ){
 			echo '<script language="javascript">';
 			echo 'alert("Not able to add List")';
 			echo '</script>';
 		}else{
 			header("Refresh:0");
 		}
+	}
+	
+	function insertCard()
+	{
+		
+		echo '<script language="javascript">';
+		echo 'alert("HEREEE 2")';
+		echo '</script>';
+		
+		$list_id = $_POST['newCardBut'];
+
+		echo '<script language="javascript">';
+		echo 'alert('. $list_id .')';
+		echo '</script>';
+		
+		global $newCardName;
+		global $newCardDesc;
+		global $newCardDue;
+		global $mysqli;
+		
+		
+		$date = date('Y-m-d');
+		/*
+		$cred_query = "insert into List(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$list_id')";
+		
+		
+		$flag = mysqli_query($mysqli, $cred_query);
+		
+		
+		if($flag === null ){
+			echo '<script language="javascript">';
+			echo 'alert("Not able to add List")';
+			echo '</script>';
+		}else{
+			header("Refresh:0");
+		}
+		 */
 	}
 	
 	/*
@@ -70,6 +106,7 @@
 	}
 	 */
 	
+	
 	if(isset($_POST['submitList'])){
 		
 		$newListName = mysqli_real_escape_string($mysqli,$_POST['listName']);
@@ -78,6 +115,24 @@
 		
 		insertList();
 
+	}
+	
+	if(isset($_POST['submitCard'])){		
+		
+		echo '<script language="javascript">';
+		echo 'alert("HEREEE")';
+		echo '</script>';
+		
+		$newCardName = mysqli_real_escape_string($mysqli,$_POST['cardName']);
+		$newCardDesc = mysqli_real_escape_string($mysqli,$_POST['cardDesc']);
+		$newCardDue = mysqli_real_escape_string($mysqli,$_POST['cardDue']);
+		
+		echo '<script language="javascript">';
+		echo 'alert("HEREEE ff")';
+		echo '</script>';
+		
+		insertCard();
+		
 	}
 	
 	if(array_key_exists('Logout',$_POST)){
@@ -143,8 +198,7 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '<div class="column">';
 	echo '<div class="cornBut">';
 	
-	echo '<button class="newcardBut" onclick="newCard()">+</button>';
-	
+	echo '<button class="newcardBut" type="submit" name = newCardBut value ='. $l_id .' onclick="newCard()">+</button>';
 	
 	echo '</div>';
 	
@@ -190,13 +244,16 @@ while ($row = mysqli_fetch_array($result_li))
 <form action="/board_manager.php" class="form-container">
 <h1>Create New Card</h1>
 
-<label for="email"><b>Email</b></label>
-<input type="text" placeholder="Enter Email" name="email" required>
+<label for="cardName">Card Name</b></label>
+<input type="text" placeholder="CardName" name="CardName" required>
 
-<label for="psw"><b>Password</b></label>
-<input type="password" placeholder="Enter Password" name="psw" required>
+<label for="cardDesc"><b>Description</b></label>
+<input type="text" placeholder="Enter List Description" name="cardDesc">
 
-<button type="submit" class="but">Login</button>
+<label for="cardDue"><b>Due Date</b></label>
+<input type="date" name="cardDue" required>
+
+<button type="submit" name="submitCard" id="submitCard" class="but">Add Card</button>
 <button type="button" class="but_cancel"  onclick="closeNewCard()">Close</button>
 </form>
 </div>
@@ -215,7 +272,7 @@ while ($row = mysqli_fetch_array($result_li))
 <input type="date" name="listDue" required>
 
 
-<button type="submit" name="submitList" id="submitList" class="but">Login</input>
+<button type="submit" name="submitList" id="submitList" class="but">Add List</button>
 <button type="button" class="but_cancel"  onclick="closeNewList()">Close</button>
 </form>
 </div>
