@@ -42,15 +42,7 @@
 	function insertCard()
 	{
 		
-		echo '<script language="javascript">';
-		echo 'alert("HEREEE 2")';
-		echo '</script>';
-		
 		$list_id = $_POST['newCardBut'];
-
-		echo '<script language="javascript">';
-		echo 'alert('. $list_id .')';
-		echo '</script>';
 		
 		global $newCardName;
 		global $newCardDesc;
@@ -59,21 +51,20 @@
 		
 		
 		$date = date('Y-m-d');
-		/*
-		$cred_query = "insert into List(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$list_id')";
 		
+		$cred_query = "insert into Card(name, description, issue_date,due_date,status, assigned_ID, list_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','NOT STARTED','1','1')";
 		
 		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
 		if($flag === null ){
 			echo '<script language="javascript">';
-			echo 'alert("Not able to add List")';
+			echo 'alert("Not able to add Card")';
 			echo '</script>';
 		}else{
 			header("Refresh:0");
 		}
-		 */
+		
 	}
 	
 	/*
@@ -117,19 +108,11 @@
 
 	}
 	
-	if(isset($_POST['submitCard'])){		
-		
-		echo '<script language="javascript">';
-		echo 'alert("HEREEE")';
-		echo '</script>';
+	if(isset($_POST['submitCard'])){
 		
 		$newCardName = mysqli_real_escape_string($mysqli,$_POST['cardName']);
 		$newCardDesc = mysqli_real_escape_string($mysqli,$_POST['cardDesc']);
 		$newCardDue = mysqli_real_escape_string($mysqli,$_POST['cardDue']);
-		
-		echo '<script language="javascript">';
-		echo 'alert("HEREEE ff")';
-		echo '</script>';
 		
 		insertCard();
 		
@@ -241,7 +224,7 @@ while ($row = mysqli_fetch_array($result_li))
 ?>
 
 <div class="form-popup" id="cardForm">
-<form action="/board_manager.php" class="form-container">
+<form  method="post" action="/board_manager.php" class="form-container">
 <h1>Create New Card</h1>
 
 <label for="cardName">Card Name</b></label>
