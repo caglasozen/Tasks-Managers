@@ -84,18 +84,17 @@ th {
     transition: 0.5s;
 }
 
-.logOutButton {
-    position: fixed;
-    bottom: 1550px;
-    right: 10px; 
-}
+.logoutButton {
+  position:fixed;
+   right:10px;
+   top:25px;
+   }
 
-.goBackButton {
-      position: fixed;
-    bottom: 1500px;
-    right: 10px; 
-
-}
+.gobackButton {
+   position:fixed;
+   right:10px;
+   top:70px;
+   }
 
 .projectButton:hover span {
     padding-right: 15px;

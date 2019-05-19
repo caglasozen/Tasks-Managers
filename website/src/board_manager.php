@@ -19,7 +19,7 @@
 	
 	/*
 	//Fetching project information.
-	$query_proj_info = "SELECT * FROM Project WHERE id = $proj_id";
+	$query_proj_info = "SELECT * FROM Project WHERE id = 1";
 	$result_pr = mysqli_query($mysqli, $query_proj_info);
 	$row_pr = mysqli_fetch_assoc($result_pr);
 	
@@ -34,11 +34,10 @@
 	$row_li = mysqli_fetch_assoc($result_li);
 	 
 	
-	
 	if(!isset($user_id)){
 		header('Location: form.php');
-	}
-	 */
+	}*/
+	
 	
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
@@ -114,18 +113,17 @@
 </div>
 
 
+<div class="logoutButton">
 
-<div class="logOutButton">
-
-<form method="post">
+<form  align="right" method="post">
 <input type="submit" name="Logout" id="Logout" value="Log Out" /><br/>
 </form>
 
 </div>
 
-<div class="goBackButton">
+<div class="gobackButton">
 
-<form method="post"> <center>
+<form  align="right" method="post">
 <input type="submit" name="GoBack" id="GoBack" value="Go Back"  /><br/>
 </form>
 
