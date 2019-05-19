@@ -13,23 +13,30 @@
 		header('Location: index.php');
 	}
 	
-	function insertList( $newListName, $newListDesc, $newListDue, $board_id )
+	function insertList()
 	{
-		$cred_query = "insert into List(name, description, issue_date,due_date,board_id) values()";
 		
-		$result = mysqli_query($mysqli,$cred_query);
-		$flag = mysqli_fetch_row($result);
+		global $newListName;
+		global $newListDesc;
+		global $newListDue;
+		global $board_id;
+		global $mysqli;
+	
+		
+		$date = date('Y-m-d');
+		
+		$cred_query = "insert into List(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$board_id')";
+		
+		
+		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
 		if($flag === null  ){
 			echo '<script language="javascript">';
-			echo 'alert("No such user with the given password in the system")';
+			echo 'alert("Not able to add List")';
 			echo '</script>';
 		}else{
-			
-			$_SESSION['user_name'] = $user;
-			$_SESSION['password'] = $pass;
-			header('Location: index.php');
+			header("Refresh:0");
 		}
 	}
 	
@@ -69,7 +76,7 @@
 		$newListDesc = mysqli_real_escape_string($mysqli,$_POST['listDesc']);
 		$newListDue = mysqli_real_escape_string($mysqli,$_POST['listDue']);
 		
-		insertList(	$newListName, $newListDesc, $newListDue, $board_id);
+		insertList();
 
 	}
 	
@@ -128,6 +135,7 @@ function closeNewList() {
 <?php
 while ($row = mysqli_fetch_array($result_li))
 {
+	$l_id = $row['ID'];
 	$l_name = $row['name'];
 	$l_desc = $row['description'];
 	$l_due = $row['due_date'];
@@ -147,19 +155,32 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '<p>'. $l_desc .'</p>';
 	echo '</div>';
 	echo '<p> <b> Due Date </b>'. $l_due .'</p>';
-
-
-	echo '<div class="card">';
-	echo '<h3>Card 1  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
-	echo '<p>Some text</p>';
-	echo '<p>Some text</p>';
-	echo '</div>';
 	
-	echo '<div class="card">';
-	echo '<h3>Card 2  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
-	echo '<p>Some text</p>';
-	echo '<p>Some text</p>';
-	echo '</div>';
+	$query_card_info = "SELECT * FROM Card WHERE list_ID = '" . $l_id . "'";
+	$result_ca = mysqli_query($mysqli, $query_card_info);
+	
+	while ($row = mysqli_fetch_array($result_ca))
+	{
+		$c_id = $row['ID'];
+		$c_name = $row['name'];
+		$c_desc = $row['description'];
+		$c_due = $row['due_date'];
+		$c_stat = $row['status'];
+		$c_assID = $row['assigned_ID'];
+
+		echo '<div class="card">';
+		echo '<h3>Card  '. $c_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
+		echo '<div style="overflow: scroll;">';
+		
+		echo '<p>'. $c_desc .'</p>';
+		echo '</div>';
+		echo '<p> <b> Due Date </b>'. $c_due .'</p>';
+		echo '<p> <b> Status </b>'. $c_stat .'</p>';
+		echo '<p> <b> Assigned </b>'. $c_assID .'</p>';
+		
+		echo '</div>';
+	}
+
 	
 	echo '</div>';
 }
