@@ -224,7 +224,7 @@ while ($row = mysqli_fetch_array($result_li))
 ?>
 
 <div class="form-popup" id="cardForm">
-<form  method="post" action="/board_manager.php" class="form-container">
+<form  method="post" action="board_manager.php" class="form-container">
 <h1>Create New Card</h1>
 
 <label for="cardName">Card Name</b></label>
@@ -242,7 +242,7 @@ while ($row = mysqli_fetch_array($result_li))
 </div>
 
 <div class="form-popup" id="ListForm">
-<form  method="post" action="/board_manager.php" class="form-container" >
+<form  method="post" action="board_manager.php" class="form-container" >
 <h1>Create New List</h1>
 
 <label for="listName"><b>List Name</b></label>

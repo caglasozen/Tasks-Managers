@@ -25,7 +25,7 @@
 				echo '</script>';
 			}else{
 
-			    $query_user_id = "select distinct id from user where email = '$user'";
+			    $query_user_id = "select distinct id from User where email = '$user'";
                 $query_user_id_res = mysqli_query($mysqli, $query_user_id);
                 $row = mysqli_fetch_assoc($query_user_id_res);
                 $_SESSION['user_id'] = $row["id"];
