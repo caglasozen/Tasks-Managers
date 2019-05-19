@@ -206,7 +206,7 @@
 
         <!-- Teams of the project -->
         <div class="teams">
-            <h3>Project Teams</h3>
+            <h3>Teams</h3>
 
             <?php
                 //user is the manager.
@@ -215,20 +215,14 @@
                     for($i = 0; $i < $number_of_teams; $i++){
 
                         if($i == $selected_team_index){
-                            echo '<label class="projectButton">';
-                            echo '<input type="radio" name="team_button" value="' . $i . '" onclick="this.form.submit()">';
+                            echo '<button id="selectedButton" name="team_button" value="'. $i . '" class="projectButton" type="submit">';
                             echo '<span>' . $project_team_names[$i] . '</span>';
-                            echo '</label>';
                         }
                         else {
-                            echo '<label class="projectButton">';
-                            echo '<input type="radio" name="team_button" value="' . $i . '" onclick="this.form.submit()">';
+                            echo '<button name="team_button" value="'. $i . '" class="projectButton" type="submit">';
                             echo '<span>' . $project_team_names[$i] . '</span>';
-                            echo '</label>';
                         }
-
                     }
-
                     echo '</form>';
                 }
                 //TODO: other user types screen.
@@ -249,9 +243,6 @@
                         echo '</label>';
                     }
                 ?>
-
-
-
         </div>
 
 
