@@ -21,7 +21,7 @@
     }
 
 	if(array_key_exists('Logout',$_POST)){
-	    header('Location: logOut.php');
+	    header('Location: form.php');
 
 	}
 
