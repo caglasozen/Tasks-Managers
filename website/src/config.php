@@ -1,13 +1,14 @@
 <?php
 	session_start();
-	define('HOST', 'dijkstra.ug.bcc.bilkent.edu.tr:3306');
-	define('USERNAME', 'cagla.sozen');
-	define('PASSWORD', 'xD1U8Ui3');
-	define('DB_NAME', 'cagla_sozen');
+	define('HOST', 'localhost:8889');
+	define('USERNAME', 'root');
+	define('PASSWORD', 'root');
+	define('DB_NAME', 'tasksNmanagers');
 	
 	$mysqli = mysqli_connect(HOST, USERNAME, PASSWORD, DB_NAME);
 	
 	if($mysqli === false){
 		die("ERROR: Could not connect. " . $mysqli->connect_error);
 	}
-?>
+
+

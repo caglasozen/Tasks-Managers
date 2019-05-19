@@ -1,45 +1,51 @@
+
 <?php
-include "config.php";
+	include "config.php";
+	
+	session_start();
 
-session_start();
-
-if (isset($_POST['submitCred'])) {
-
-
-    $user = mysqli_real_escape_string($mysqli, $_POST['CustomerName']);
-    $pass = mysqli_real_escape_string($mysqli, $_POST['Password']);
+	if(isset($_POST['submitCred'])){
 
 
-    if ($user != "" && $pass != "") {
-
-        $cred_query = "select email, password from User where email='" . $user . "' and password='" . $pass . "'";
-
-        $result = mysqli_query($mysqli, $cred_query);
-        $flag   = mysqli_fetch_row($result);
+		$user = mysqli_real_escape_string($mysqli, $_POST['CustomerName']);
+		$pass = mysqli_real_escape_string($mysqli, $_POST['Password']);
 
 
-        if ($flag === null) {
-            echo '<script language="javascript">';
-            echo 'alert("No such user with the given password in the system")';
-            echo '</script>';
-        } else {
+		if ($user != "" && $pass != ""){
 
-            $_SESSION['user_name'] = $user;
-            $_SESSION['password']  = $pass;
-            header('Location: index.php');
-        }
+			$cred_query = "select email, password from User where email='".$user."' and password='".$pass."'";
 
-    } else {
-        echo '<script language="javascript">';
-        echo 'alert("Please enter a username and a password")';
-        echo '</script>';
-    }
+			$result = mysqli_query($mysqli,$cred_query);
+			$flag = mysqli_fetch_row($result);
 
-}
 
-if (isset($_GET['signUp'])) {
-    header('Location: signUp.php');
-}
+			if($flag === null  ){
+				echo '<script language="javascript">';
+				echo 'alert("No such user with the given password in the system")';
+				echo '</script>';
+			}else{
+
+			    $query_user_id = "select distinct id from user where email = '$user'";
+                $query_user_id_res = mysqli_query($mysqli, $query_user_id);
+                $row = mysqli_fetch_assoc($query_user_id_res);
+                $_SESSION['user_id'] = $row["id"];
+
+				header('Location: index.php');
+			}
+
+		}
+		else
+		{
+			echo '<script language="javascript">';
+			echo 'alert("Please enter a username and a password")';
+			echo '</script>';
+		}
+
+	}
+
+	if(isset($_POST['signUp'])){
+		header('Location: signUp.php');
+	}
 ?>
 
 

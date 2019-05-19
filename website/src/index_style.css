@@ -1,56 +1,226 @@
 input[type=button], input[type=submit], input[type=reset] {
-background-color: #4286f4;
-border: none;
-color: white;
-font-family: arial, sans-serif;
-padding: 8px 16px;
-margin: 12px 12px;
+    background-color: #4286f4;
+    border: none;
+    color: white;
+    font-family: arial, sans-serif;
+    padding: 8px 16px;
+    margin: 12px 12px;
 }
 
-body{ 
-text-align:left;
-background-color: rgb(240,240,240);
-font-family: arial, sans-serif, italic;
-margin: 50px 400px;
-}
-
-h1 {
-  color: navy;
-  font-family: arial, sans-serif;
-  margin-left: 20px;
+body{
+    text-align:left;
+    background-color: rgb(240,240,240);
+    font-family: arial, sans-serif, italic;
+    margin: 50px 400px;
 }
 
 h1 {
-  color: #4286f4;
-  font-family: arial, sans-serif;
-  margin-left: 20px;
+    color: navy;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
+}
+
+h1 {
+    color: #4286f4;
+    font-family: arial, sans-serif;
+    margin-left: 20px;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 th, td {
-  text-align: left;
-  font-family: arial, sans-serif;
-  padding: 5px;
+    text-align: left;
+    font-family: arial, sans-serif;
+    padding: 5px;
 }
 
 th {
-  background-color: #4286f4;
-  color: white;
+    background-color: #4286f4;
+    color: white;
 }
 
 .center {
-  position: absolute;
-  right: 100px;
-  left: 100px;
-  border: 3px solid #73AD21;
-  padding: 10px;
+    position: absolute;
+    right: 100px;
+    left: 100px;
+    border: 3px solid #73AD21;
+    padding: 10px;
 }
 
 .radioLeft
 {
     text-align:left;
+}
+
+#projects{
+    height: 100px;
+    width: 250px;
+    border: 2px solid red;
+}
+
+.projectButton{
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #4286f4;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    text-transform: capitalize;
+}
+
+.projectButton span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.projectButton span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -30px;
+    transition: 0.5s;
+}
+
+.projectButton:hover span {
+    padding-right: 15px;
+}
+
+.projectButton:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+#selectedButton{
+    background-color: darkred;
+}
+
+
+.teams{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.teams input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.boards{
+    /*
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+
+     */
+}
+
+.boards input {
+/*    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+ */
+}
+
+.boardsSpan{
+    /*
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #4286f4;
+
+     */
+}
+
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+    background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+    opacity: 1;
 }
