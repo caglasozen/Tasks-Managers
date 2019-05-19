@@ -13,6 +13,7 @@
     $projects = [];
     $project_names = []; //same index of the $project_ids array is the id of this project.
     $project_ids = [];
+
     $selected_project_index = $_SESSION['project_index'];
     $selected_project_id = -1;
     $selected_project_name = "";
@@ -21,6 +22,8 @@
     $project_team_ids = [];
     $selected_team_name = "";
     $selected_team_id = -1;
+
+
     $selected_team_index = -1;
 
     $board_names = [];
@@ -75,14 +78,21 @@
 	}
 
 	//Project selected.
-	if(array_key_exists('p_button', $_POST) ){
-        $selected_project_index = $_POST['p_button'];
+	if(array_key_exists('p_button', $_POST) || $selected_project_index > -1){
+
+	    if(array_key_exists('p_button', $_POST)){
+            $selected_project_index = $_POST['p_button'];
+        }else {
+	        $selected_project_index = $_SESSION['project_index'];
+        }
 
         $selected_project_name = $project_names[$selected_project_index];
         $selected_project_id = $project_ids[$selected_project_index];
         $_SESSION['project_index'] = $selected_project_index;
 
-        $query_project_info = "select name, description, app_domain, issue_date, due_date, budget, manager_id, project.id from project, workon where name like '$selected_project_name' and workon.project_id = project.id;";
+        $query_project_info = "select name, description, app_domain, issue_date, due_date, budget, manager_id, project.id 
+                                from project, workon 
+                                where project.id = $project_ids[$selected_project_index] and workon.project_id = project.id;";
         $result = mysqli_query($mysqli, $query_project_info);
 
         $row = mysqli_fetch_assoc($result);
@@ -125,7 +135,7 @@
 
 
 	    //fetching team boards
-	    $query_team_boards = "select id, name from board where name team_id= $selected_team_id";
+	    $query_team_boards = "select id, name from board where team_id = $selected_team_id;";
 	    $result = mysqli_query($mysqli, $query_team_boards);
 
 	    $number_of_boards = mysqli_num_rows($result);
@@ -133,7 +143,7 @@
 	    if($number_of_boards > 0){
             while($row = mysqli_fetch_assoc($result)){
                 $board_ids[] = $row['id'];
-                $board_names = $row['name'];
+                $board_names[] = $row['name'];
             }
         }
 
@@ -204,10 +214,19 @@
                     echo '<form method="post">';
                     for($i = 0; $i < $number_of_teams; $i++){
 
-                        echo '<label class="projectButton">';
-                        echo '<input type="radio" name="team_button" value="' . $i . '" onclick="this.form.submit()">';
-                        echo '<span>' . $project_team_names[$i] . '</span>';
-                        echo '</label>';
+                        if($i == $selected_team_index){
+                            echo '<label class="projectButton">';
+                            echo '<input type="radio" name="team_button" value="' . $i . '" onclick="this.form.submit()">';
+                            echo '<span>' . $project_team_names[$i] . '</span>';
+                            echo '</label>';
+                        }
+                        else {
+                            echo '<label class="projectButton">';
+                            echo '<input type="radio" name="team_button" value="' . $i . '" onclick="this.form.submit()">';
+                            echo '<span>' . $project_team_names[$i] . '</span>';
+                            echo '</label>';
+                        }
+
                     }
 
                     echo '</form>';
@@ -220,12 +239,18 @@
         <!-- Boards of the team -->
         <div class="boards">
             <h3>Boards</h3>
-            <label>
-                <input type="radio" name="boards" checked/>
-                <div class="box">
-                    <span class="boardsSpan">Front-end</span>
-                </div>
-            </label>
+
+                <?php
+                    for($i = 0; $i < $number_of_boards; $i++){
+
+                        echo '<label>';
+                        echo '<input type="radio" name="boards"/>';
+                        echo '<span>' . $board_names[$i] . '</span><br>' ;
+                        echo '</label>';
+                    }
+                ?>
+
+
 
         </div>
 

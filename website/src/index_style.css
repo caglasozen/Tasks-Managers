@@ -125,27 +125,35 @@ th {
 }
 
 .boards{
+    /*
     display: block;
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
+
+     */
 }
 
 .boards input {
-    position: absolute;
+/*    position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
+
+ */
 }
 
 .boardsSpan{
+    /*
     position: absolute;
     top: 0;
     left: 0;
     height: 25px;
     width: 25px;
     background-color: #4286f4;
+
+     */
 }
