@@ -2,6 +2,11 @@
 	include "config.php";
 	session_start();
 
+	if (isset($_POST['sign'])) {
+        header('Location: index.php');
+    }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,29 +27,21 @@
 
 		$sql = "INSERT INTO User (ID, email, password, first_name, last_name,experience) VALUES (LAST_INSERT_ID(), '$email', '$password' ,'$first_name','$last_name','	$experience')";
 		$insertq = mysqli_query($mysqli, $sql);	
-		if($insertq){
-			echo "Success";
-		}
-		else {
-			echo "FAIL";
-		}
 
 	}
 
-
-
-	  ?>
+	?>
 </div>
 
 <div >
-	<form action="signUp.php" method="POST"> 
+	<form action="signUp.php" method="POST">
 		<div class="container">
 
-			<div class="row ">
+			<div class="row justify-content-center">
                 <div class="col-sm-4"></div>
 				<div class="col-sm-3">
 					<h1> Sign Up </h1>
-					<p> Please fill the form to create account </p> 
+					<p> Please fill the form to create account </p>
 
 					<label for="email"> <b> Email </b> </label>
 					<input class="form-control" type="text" name="email" required>
@@ -59,8 +56,8 @@
 					<input class="form-control" type="password" name="password" required>
 
 					<label for="experience"><b> Experience </b></label>
-					<input class="form-control" type="text" name="experience" required> 
-					<hr class="mb-3">
+					<input class="form-control" type="text" name="experience" required>
+					<br>
 					
 					<input class="btn btn-primary" type="submit" name="sign" value="Sign Up"> </input>
 				</div>

@@ -65,17 +65,30 @@ if (isset($_GET['signUp'])) {
 
 <body>
     <div style="text-align:center">
-        <h1> TASKS&MANAGERS LOGIN </h1></div>
+        <h1> Tasks&Managers Login </h1></div>
     <br>
+
     <form name="Login" method="post" action="" onsubmit="return checkCred();">
-        <div style="text-align:center"> Username:
-            <input type="text" name="CustomerName" id="c_name" /> </div>
-        <div style="text-align:center"> Password:
-            <input type="password" name="Password" id="pass" placeholder="" /> </div>
-        <div style="text-align:center">
-            <hr class="mb-3">
+
+        <div class="form-group row justify-content-center" style="text-align:center">
+            <label for="colFormLabel" class="col-md-2 col-form-label"><b>Username</b></label>
+            <div class="col-md-2" >
+                <input type="text" name="CustomerName" class="form-control" id="user" >
+            </div>
+        </div>
+
+        <div class="form-group row justify-content-center" style="text-align:center">
+            <label for="colFormLabel" class="col-md-2 col-form-label"><b>Password</b></label>
+            <div class="col-md-2" >
+                <input type="password" name="Password" class="form-control" id="pass" >
+            </div>
+        </div>
+
+
+        <div style="text-align:center"><br>
             <input class="btn btn-primary" type="submit" value="Login" name="submitCred" id="submitCred">
         </div>
+
     </form>
 
     <form>
@@ -83,6 +96,9 @@ if (isset($_GET['signUp'])) {
             <input class="btn btn-primary" type="submit" value="Sign Up" name="signUp" id="signUp">
         </div>
     </form>
+
+
+
 </body>
 
 </html>

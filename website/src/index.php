@@ -2,13 +2,6 @@
 	include "config.php";
 	session_start();
 
-	function logOut() {
-		echo "You are logging out of the system...";
-		session_destroy();
-		header('Location: form.php');
-	}
-
-
 	$user = $_SESSION['user_name'];
 	$userPrint = strtoupper($user);
 	$c_id = $_SESSION['password'];
@@ -23,53 +16,64 @@
 	$f_name =  $row['first_name'];
 	$l_name =  $row['last_name'];
 
-
-	if(!isset($user)){
-		header('Location: form.php');
-	}
+	if($f_name == ''){
+        header('Location: form.php');
+    }
 
 	if(array_key_exists('Logout',$_POST)){
-		logOut();
+	    header('Location: logOut.php');
+
 	}
+
+	if (isset($_POST['account'])) {
+        header('Location: account.php');
+    }
 
 ?>
 
 <!doctype html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
-<h1 style="text-align: center">Welcome <?php echo $f_name.$l_name ?> </h1>
+
+    <div class="d-flex flex-lg-row-reverse">
+        <div class="p-2">
+            <form method="post">
+                <input class="btn btn-primary" type="submit" name="Logout" id="Logout" value="Logout" />
+            </form>
+        </div>
+
+
+        <div class="p-2">
+            <form method="post" >
+                <input class="btn btn-info" type="submit" name="account" value="Account" />
+            </form>
+        </div>
+
+
+        <h1 class="mr-auto" style="text-align: center">Welcome <?php echo $f_name. " ".$l_name ?> </h1>
+    </div>
+
+<br>
+
 
 <h2>Projects</h2>
 
 <div class= "projects" >
-<!-- <?php
-	global $mysqli;
-	global $user;
-	$query_list = "WITH TeamMember( team_ID ) AS ( SELECT team_ID FROM Member WHERE userID = '".$user."' ) SELECT project_ID, name FROM TeamMember as TM, Team  as T WHERE T.team_ID = TM.team_ID";
-	$result_list = mysqli_query($mysqli,$query_list);
-	while ($row_list = mysqli_fetch_array($result_list)) { ?>
-<div class="radioLeft">
-<input type="radio" name="rad_list" id="<?php $row_list['project_ID']?>" value = "<?php echo $row_list['project_ID']?>" >
-<label for="<?php $row_list['project_ID']?>"><?php echo $row_list['project_ID']; ?> </label>
-</div>
-<?php } ?> -->
 
-<div class="radioLeft">
-    <hr class="mb-3">
-<input type="radio" name="rad_list" id="test" value = "test" >
-<label for="test"><?php echo test ?> </label>
-</div>
+    <div class="radioLeft">
+        <br>
+        <input type="radio" name="rad_list" id="test" value = "test" >
+        <label for="test"><?php echo test ?> </label>
+    </div>
 
 </div>
 
 
-<form method="post">
-        <hr class="mb-3">
-<input class="btn btn-primary" type="submit" name="Logout" id="Logout" value="Logout" /><br/>
-</form>
 
 </body>
 </html>
