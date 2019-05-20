@@ -52,13 +52,51 @@
     function deleteBoard($db){
         $board_id = $_POST['board_id'];
         $query_delete_board = "delete from board where id= $board_id;";
-        mysqli_query($db, $query_delete_board);
 
         if (mysqli_query($db, $query_delete_board)) {
             header("Refresh:0");
         } else {
             echo "Error: " . $query_delete_board . "<br>" . mysqli_error($db);
         }
+    }
+
+    function createProject($db, $project_name, $project_desc,
+                           $project_issue, $project_app,
+                           $project_due, $project_budget){
+
+        global $user_id;
+
+        $query_create_project = "insert into project (name, description, issue_date, app_domain, due_date, budget) 
+                                  values ('$project_name', '$project_desc', '$project_issue', '$project_app', '$project_due', $project_budget)";
+
+        mysqli_query($db, $query_create_project);
+
+        $query_get_last_insert = "select LAST_INSERT_ID();";
+
+        $result = mysqli_query($db, $query_get_last_insert);
+        $row = mysqli_fetch_assoc($result);
+        $project_id = $row['LAST_INSERT_ID()'];
+
+        $query_create_team = "insert into team values ();";
+        mysqli_query($db, $query_create_team);
+
+        $result = mysqli_query($db, $query_get_last_insert);
+        $row = mysqli_fetch_assoc($result);
+        $team_id = $row['LAST_INSERT_ID()'];
+
+        $query_check_manager = "select count (*) from manager where id = $user_id;";
+        $result = mysqli_query($db, $query_check_manager);
+        $row = mysqli_fetch_assoc($result);
+        if($row['count(*)'] < 1){
+            $query_create_manager = "insert into manager values ($user_id);";
+            mysqli_query($db, $query_create_manager);
+        }
+
+        $query_add_workon = "insert into workon (team_id, project_id, manager_id) values ($team_id, $project_id, $user_id);";
+        mysqli_query($db, $query_add_workon);
+
+        header("Refresh:0");
+
     }
 
 	//Fetching user information.
@@ -212,6 +250,14 @@
 	if(array_key_exists('board_delete', $_POST) ){
         deleteBoard($mysqli);
 	}
+
+    if(array_key_exists('create_project_button', $_POST) ){
+
+        createProject($mysqli, $_POST['project_name'], $_POST['project_desc'],
+                    date('Y-m-d'), $_POST['project_app_domain'], $_POST['project_due'],
+                    $_POST['project_budget']);
+    }
+
 
 ?>
 
@@ -388,6 +434,34 @@
                 ?>
         </div>
 
+        <!--  Create Project  -->
+        <button class="open-create-project" onclick="openCreateProject()">Create Project</button>
+
+        <div class="create_project" id="create_project">
+            <form action="index.php" class="form-container" method="post">
+                <h1>Create Project</h1>
+
+                <label for="project_name"><b>Project Name</b></label>
+                <input type="text" placeholder="Enter Project Name" name="project_name" required>
+
+                <label for="project_desc"><b>Description</b></label>
+                <input type="text" placeholder="Enter Description" name="project_desc" required>
+
+                <label for="project_budget"><b>Budget</b></label>
+                <input type="number" placeholder="Enter Budget" name="project_budget"><br>
+
+                <label for="project_app_domain"><b>Application Domain</b></label>
+                <input type="text" placeholder="Enter Application Domain" name="project_app_domain">
+
+                <label for="project_due"><b>Due Date</b></label>
+                <input type="date" name="project_due" required>
+
+                <button type="submit" name="create_project_button" class="btn">Create Project</button>
+                <button type="button" class="btn cancel" onclick="closeCreateProject()">Close</button>
+                </form>
+        </div>
+
+
         <script>
             function openCreateForm() {
                 document.getElementById("create_board").style.display = "block";
@@ -395,6 +469,14 @@
 
             function closeCreateForm() {
                 document.getElementById("create_board").style.display = "none";
+            }
+
+            function openCreateProject() {
+                document.getElementById("create_project").style.display = "block";
+            }
+
+            function closeCreateProject() {
+                document.getElementById("create_project").style.display = "none";
             }
         </script>
 

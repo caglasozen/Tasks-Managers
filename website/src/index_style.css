@@ -161,8 +161,30 @@ th {
     width: 280px;
 }
 
+.open-create-project {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 150px;
+    right: 28px;
+    width: 280px;
+}
+
 /* The popup form - hidden by default */
 .create_board {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.create_project {
     display: none;
     position: fixed;
     bottom: 0;

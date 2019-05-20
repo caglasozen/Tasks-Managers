@@ -50,8 +50,6 @@
 		global $newCardDue;
 		global $mysqli;
         global $newCardListId;
-
-		
 		
 		$date = date('Y-m-d');
 
@@ -262,7 +260,7 @@ while ($row = mysqli_fetch_array($result_li))
 
     <?php
         //newCardButton form submitted.
-        if(array_key_exists('newCardBut',$_POST)){
+        if(array_key_exists('newCardBut', $_POST)){
             echo '<script type="text/javascript">newCard();</script>';
         }
     ?>
