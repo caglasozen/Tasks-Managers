@@ -136,15 +136,6 @@ th {
      */
 }
 
-.boards input {
-    background-color: #4286f4;
-    border: none;
-    color: white;
-    font-family: arial, sans-serif;
-    padding: 8px 16px;
-    margin: 12px 12px;
-}
-
 .boardsSpan{
     /*
     position: absolute;

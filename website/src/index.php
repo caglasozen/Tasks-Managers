@@ -38,12 +38,14 @@
     }
 
     function createBoard($db, $board_name, $board_desc, $board_issue, $board_due, $team_id){
-        echo 'in func';
         $query_create_board = "insert into board (name, description, issue_date, due_date, team_id) 
                                 values ('$board_name', '$board_desc', '$board_issue', '$board_due', $team_id);";
 
         if (mysqli_query($db, $query_create_board)) {
+            echo '<script language="javascript">';
             echo 'alert("Board Created!")';
+            echo '</script>';
+            header("Refresh:0");
         } else {
             echo "Error: " . $query_create_board . "<br>" . mysqli_error($db);
         }
@@ -56,7 +58,10 @@
         mysqli_query($db, $query_delete_board);
 
         if (mysqli_query($db, $query_delete_board)) {
+            echo '<script language="javascript">';
             echo 'alert("Board Deleted!")';
+            echo '</script>';
+            header("Refresh:0");
         } else {
             echo "Error: " . $query_delete_board . "<br>" . mysqli_error($db);
         }
