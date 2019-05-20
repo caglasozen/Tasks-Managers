@@ -32,7 +32,7 @@
 		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
-		if($flag === null ){
+		if($flag == false ){
 			echo '<script language="javascript">';
 			echo 'alert("Not able to add List")';
 			echo '</script>';
