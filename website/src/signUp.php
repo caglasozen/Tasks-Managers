@@ -3,7 +3,7 @@
 	session_start();
 
 	if (isset($_POST['sign'])) {
-        header('Location: index.php');
+        header('Location: form.php');
     }
 
 
@@ -36,9 +36,14 @@
 <div >
 	<form action="signUp.php" method="POST">
 		<div class="container">
-
+				
 			<div class="row justify-content-center">
-                <div class="col-sm-4"></div>
+
+                <div class="col-sm">
+                	<form  align="right" method="post">
+					<input  class="form-control"type="submit" name="GoBack" id="GoBack" value="Go Back"/>
+                </div>
+             
 				<div class="col-sm-3">
 					<h1> Sign Up </h1>
 					<p> Please fill the form to create account </p>
