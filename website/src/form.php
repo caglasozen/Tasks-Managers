@@ -1,8 +1,11 @@
-
 <?php
+	
+	if (!isset($_SESSION)){
+		session_start();
+	}
+
 	include "config.php";
 	
-	session_start();
 
 	if(isset($_POST['submitCred'])){
 
@@ -13,7 +16,7 @@
 
 		if ($user != "" && $pass != ""){
 
-			$cred_query = "select email, password from User where email='".$user."' and password='".$pass."'";
+			$cred_query = "select email, password from user where email='".$user."' and password='".$pass."'";
 
 			$result = mysqli_query($mysqli,$cred_query);
 			$flag = mysqli_fetch_row($result);
@@ -25,7 +28,7 @@
 				echo '</script>';
 			}else{
 
-			    $query_user_id = "select distinct id from User where email = '$user'";
+			    $query_user_id = "select distinct id from user where email = '$user'";
                 $query_user_id_res = mysqli_query($mysqli, $query_user_id);
                 $row = mysqli_fetch_assoc($query_user_id_res);
                 $_SESSION['user_id'] = $row["id"];

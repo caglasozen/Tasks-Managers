@@ -1,15 +1,17 @@
 <?php
+	
+	if (!isset($_SESSION)){
+		session_start();
+	}
+	
 	include "config.php";
-	session_start();
 	
 	function logOut() {
-		echo "You are logging out of the system...";
 		session_destroy();
 		header('Location: form.php');
 	}
 	
 	function goBack() {
-		echo "You are going back";
 		header('Location: index.php');
 	}
 	
@@ -24,7 +26,7 @@
 		
 		$date = date('Y-m-d');
 		
-		$cred_query = "insert into List(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$board_id')";
+		$cred_query = "insert into list(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$board_id')";
 		
 		
 		$flag = mysqli_query($mysqli, $cred_query);
@@ -84,12 +86,12 @@
 	*/
 	
 	//Fetching board information.
-	$query_board_info = "SELECT * FROM Board WHERE id = '" . $board_id . "' ";
+	$query_board_info = "SELECT * FROM board WHERE id = '" . $board_id . "' ";
 	$result_bo = mysqli_query($mysqli, $query_board_info);
 	$row_bo = mysqli_fetch_array($result_bo);
 	
 	//Fetching list information.
-	$query_list_info = "SELECT * FROM List WHERE board_ID = '" . $board_id . "'";
+	$query_list_info = "SELECT * FROM list WHERE board_ID = '" . $board_id . "'";
 	$result_li = mysqli_query($mysqli, $query_list_info);
 	
 	/*
@@ -194,7 +196,7 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '</div>';
 	echo '<p> <b> Due Date </b>'. $l_due .'</p>';
 	
-	$query_card_info = "SELECT * FROM Card WHERE list_ID = '" . $l_id . "'";
+	$query_card_info = "SELECT * FROM card WHERE list_ID = '" . $l_id . "'";
 	$result_ca = mysqli_query($mysqli, $query_card_info);
 	
 	while ($row = mysqli_fetch_array($result_ca))
@@ -225,7 +227,7 @@ while ($row = mysqli_fetch_array($result_li))
 ?>
 
 <div class="form-popup" id="cardForm">
-<form  method="post" action="board_manager.php" class="form-container">
+<form method="post" action="board_manager.php" class="form-container">
 <h1>Create New Card</h1>
 
 <label for="cardName">Card Name</b></label>
@@ -243,7 +245,7 @@ while ($row = mysqli_fetch_array($result_li))
 </div>
 
 <div class="form-popup" id="ListForm">
-<form  method="post" action="board_manager.php" class="form-container" >
+<form method="post" action="board_manager.php" class="form-container" >
 <h1>Create New List</h1>
 
 <label for="listName"><b>List Name</b></label>

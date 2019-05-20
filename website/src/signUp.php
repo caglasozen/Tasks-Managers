@@ -25,7 +25,7 @@
 		$password = $_POST['password'];
 		$experience = $_POST['experience'];
 
-		$sql = "INSERT INTO User (ID, email, password, first_name, last_name,experience) VALUES (LAST_INSERT_ID(), '$email', '$password' ,'$first_name','$last_name','	$experience')";
+		$sql = "INSERT INTO user (ID, email, password, first_name, last_name,experience) VALUES (LAST_INSERT_ID(), '$email', '$password' ,'$first_name','$last_name','	$experience')";
 		$insertq = mysqli_query($mysqli, $sql);	
 
 	}

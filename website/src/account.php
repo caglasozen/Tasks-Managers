@@ -7,7 +7,7 @@ $userPrint = strtoupper($user);
 $c_id = $_SESSION['password'];
 
 
-$query = "SELECT * FROM User WHERE email =  '".$user."' ";
+$query = "SELECT * FROM user WHERE email =  '".$user."' ";
 $result = mysqli_query($mysqli,$query);
 $row = mysqli_fetch_array($result);
 $u_email = $row['email'];
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
         $password = $_POST['password'];
         $experience = $_POST['experience'];
 
-        $sql = "UPDATE User SET email = '$email', password = '$password', first_name = '$first_name', last_name ='$last_name' ,experience = '$experience' 
+        $sql = "UPDATE user SET email = '$email', password = '$password', first_name = '$first_name', last_name ='$last_name' ,experience = '$experience'
         WHERE ID = '$user' ";
         $insertq = mysqli_query($mysqli, $sql);
 
