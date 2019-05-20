@@ -46,7 +46,7 @@
 
 	}
 
-	if(isset($_POST['signUp'])){
+	if(isset($_GET['signUp'])){
 		header('Location: signUp.php');
 	}
 ?>
