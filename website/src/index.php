@@ -42,9 +42,6 @@
                                 values ('$board_name', '$board_desc', '$board_issue', '$board_due', $team_id);";
 
         if (mysqli_query($db, $query_create_board)) {
-            echo '<script language="javascript">';
-            echo 'alert("Board Created!")';
-            echo '</script>';
             header("Refresh:0");
         } else {
             echo "Error: " . $query_create_board . "<br>" . mysqli_error($db);
@@ -58,9 +55,6 @@
         mysqli_query($db, $query_delete_board);
 
         if (mysqli_query($db, $query_delete_board)) {
-            echo '<script language="javascript">';
-            echo 'alert("Board Deleted!")';
-            echo '</script>';
             header("Refresh:0");
         } else {
             echo "Error: " . $query_delete_board . "<br>" . mysqli_error($db);
@@ -355,7 +349,11 @@
                         }
 
                         echo '<input type="submit" name="homepage_setup" value="Go to the board!"/>';
+
+                        if($user_level == 1){
                         echo '<button type="submit" name="board_delete" formaction="index.php">Delete Board</button>';
+                        }
+
                         echo '<input type="hidden" name="project_id" value="' . $selected_project_id . '" />';
                         echo '<input type="hidden" name="user_id" value="' . $user_id . '" />';
                         echo '</form>';
