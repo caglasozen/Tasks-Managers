@@ -91,7 +91,7 @@
 	$row_bo = mysqli_fetch_array($result_bo);
 	
 	//Fetching list information.
-	$query_list_info = "SELECT * FROM list WHERE board_ID = '" . $board_id . "'";
+	$query_list_info = "select * from list where board_id='".$board_id."'";
 	$result_li = mysqli_query($mysqli, $query_list_info);
 	
 	/*
@@ -176,10 +176,14 @@ function closeNewList() {
 <?php
 while ($row = mysqli_fetch_array($result_li))
 {
-	$l_id = $row['ID'];
+	$l_id = $row['id'];
 	$l_name = $row['name'];
 	$l_desc = $row['description'];
 	$l_due = $row['due_date'];
+	
+	echo '<script language="javascript">';
+	echo 'alert("NORRR '.$l_id.'")';
+	echo '</script>';
 	
 	echo '<div class="column">';
 	echo '<div class="cornBut">';
@@ -196,7 +200,7 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '</div>';
 	echo '<p> <b> Due Date </b>'. $l_due .'</p>';
 	
-	$query_card_info = "SELECT * FROM card WHERE list_ID = '" . $l_id . "'";
+	$query_card_info = "SELECT * FROM card WHERE list_id = '" . $l_id . "'";
 	$result_ca = mysqli_query($mysqli, $query_card_info);
 	
 	while ($row = mysqli_fetch_array($result_ca))

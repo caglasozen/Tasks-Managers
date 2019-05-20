@@ -32,7 +32,7 @@
 	*/
 	
 	//Fetching board information.
-	$query_board_info = "SELECT * FROM board WHERE id = '" . $board_id . "' ";
+	$query_board_info = "SELECT * FROM board WHERE ID = '" . $board_id . "' ";
 	$result_bo = mysqli_query($mysqli, $query_board_info);
 	$row_bo = mysqli_fetch_array($result_bo);
 	
@@ -40,12 +40,10 @@
 	$query_list_info = "SELECT * FROM list WHERE board_ID = '" . $board_id . "'";
 	$result_li = mysqli_query($mysqli, $query_list_info);
 	
-	/*
-	if(!isset($user_id)){
-		header('Location: form.php');
-	}
-	 */
 	
+	/*if(!isset($user_id)){
+		header('Location: form.php');
+	}*/
 	
 	
 	if(array_key_exists('Logout',$_POST)){
@@ -79,7 +77,7 @@
 <?php
 while ($row = mysqli_fetch_array($result_li))
 {
-	$l_id = $row['ID'];
+	$l_id = $row['id'];
 	$l_name = $row['name'];
 	$l_desc = $row['description'];
 	$l_due = $row['due_date'];
