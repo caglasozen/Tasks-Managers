@@ -139,6 +139,25 @@
 <link rel="stylesheet" type="text/css" href="board_style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<script>
+function newCard() {
+	document.getElementById("cardForm").style.display = "block";
+}
+
+function closeNewCard() {
+	document.getElementById("cardForm").style.display = "none";
+}
+
+function newList() {
+	document.getElementById("ListForm").style.display = "block";
+}
+
+function closeNewList() {
+	document.getElementById("ListForm").style.display = "none";
+}
+
+</script>
+
 
 </head>
 <body>
@@ -148,6 +167,11 @@
 
 <h3> Board <?php echo $board_id ?> </h3>
 
+<div class="cornBut">
+
+<button onclick="newList()">New List</button> <center>
+
+</div>
 
 <?php
 while ($row = mysqli_fetch_array($result_li))
@@ -158,6 +182,11 @@ while ($row = mysqli_fetch_array($result_li))
 	$l_due = $row['due_date'];
 	
 	echo '<div class="column">';
+	echo '<div class="cornBut">';
+	
+	echo '<button class="newcardBut" type="submit" name = newCardBut value ='. $l_id .' onclick="newCard()">+</button>';
+	
+	echo '</div>';
 	
 
 	echo '<h3>List '. $l_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
@@ -197,6 +226,42 @@ while ($row = mysqli_fetch_array($result_li))
 }
 ?>
 
+<div class="form-popup" id="cardForm">
+<form method="post" action="board_manager.php" class="form-container">
+<h1>Create New Card</h1>
+
+<label for="cardName">Card Name</b></label>
+<input type="text" placeholder="CardName" name="CardName" required>
+
+<label for="cardDesc"><b>Description</b></label>
+<input type="text" placeholder="Enter List Description" name="cardDesc">
+
+<label for="cardDue"><b>Due Date</b></label>
+<input type="date" name="cardDue" required>
+
+<button type="submit" name="submitCard" id="submitCard" class="but">Add Card</button>
+<button type="button" class="but_cancel"  onclick="closeNewCard()">Close</button>
+</form>
+</div>
+
+<div class="form-popup" id="ListForm">
+<form method="post" action="board_manager.php" class="form-container" >
+<h1>Create New List</h1>
+
+<label for="listName"><b>List Name</b></label>
+<input type="text" placeholder="ListName" name="listName" required>
+
+<label for="listDesc"><b>Description</b></label>
+<input type="text" placeholder="Enter List Description" name="listDesc">
+
+<label for="listDue"><b>Due Date</b></label>
+<input type="date" name="listDue" required>
+
+
+<button type="submit" name="submitList" id="submitList" class="but">Add List</button>
+<button type="button" class="but_cancel"  onclick="closeNewList()">Close</button>
+</form>
+</div>
 
 <div class="logoutButton">
 
