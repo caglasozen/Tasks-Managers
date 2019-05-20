@@ -1,7 +1,6 @@
 <?php
 	include "config.php";
 	session_start();
-
 	$user_id = $_SESSION['user_id'];
     $project_domain = $project_issue = $project_due = $project_desc = $project_budget = "";
     $project_position = "";
@@ -34,6 +33,20 @@
         session_destroy();
         header('Location: form.php');
     }
+
+    function createBoard($db, $name, $description, $issue_date, $due_date, $team_id){
+        $query_create_board = "insert into Board (name, description, issue_date, due_date, team_id) 
+                                values ($name, $description, $issue_date, $due_date, $team_id);";
+
+        $result = mysqli_query($db, $query_create_board);
+        if($result != null)
+            return 0;
+        else
+            return -1;
+    }
+
+    date_default_timezone_set('Asia/Kuwait');
+echo "The time is " . date("h:i:sa");
 
 	//Fetching user information.
 	$query_user_info = "SELECT * FROM User WHERE id = $user_id";
@@ -168,10 +181,18 @@
 
     }
 
-
-
 	if (isset($_POST['account'])) {
         header('Location: account.php');
+    }
+
+	if( isset($_POST['create_board'])){
+
+	    createBoard($mysqli,  mysqli_real_escape_string($_POST['board_name']),
+                            mysqli_real_escape_string($_POST['board_desc']),
+                            mysqli_real_escape_string($_POST['']),
+                            mysqli_real_escape_string($_POST['board_due']),
+                            $selected_team_id
+        );
     }
 
 ?>
@@ -316,30 +337,36 @@
                     }
 
                     //create boards pop-up.
-                /*
-                    if($user_level == 1){
-                        echo '<button class="open-button" onclick="openForm()">Open Form</button>';
 
-                        echo '<div class="create_board" id="create_board">';
+                    if($user_level == 1){
+
+                        //Create new board.
+                        echo '<button class="open-button" onclick="openForm()">Create Board</button>';
+
+                        echo '<div class="form-popup" id="myForm">';
                         echo '<form action="/action_page.php" class="form-container">';
-                        echo '<h1>Login</h1>';
-                        echo '<label for="email"><b>Email</b></label>';
-                        echo '<input type="text" placeholder="Enter Email" name="email" required>';
-                        echo '<label for="psw"><b>Password</b></label>';
-                        echo '<input type="password" placeholder="Enter Password" name="psw" required>';
-                        echo '<button type="submit" class="btn">Login</button>';
+                        echo '<h1>Create Board</h1>';
+
+                        echo '<label for="email"><b>Board Name</b></label>';
+                        echo '<input type="text" placeholder="Enter Board Name" name="board_name" required>';
+
+                        echo '<label for="desc"><b>Description</b></label>';
+                        echo '<input type="text" placeholder="Enter Description" name="board_desc" required>';
+
+                        echo '<label for="cardDue"><b>Due Date</b></label>';
+                        echo '<input type="date" name="board_due" required>';
+
+                        echo '<button type="submit" class="create_board">Login</button>';
                         echo '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>';
                         echo '</form>';
                         echo '</div>';
 
-
                     }
-                */
+
 
                 ?>
         </div>
 
-        <!--
         <script>
             function openForm() {
                 document.getElementById("myForm").style.display = "block";
@@ -349,11 +376,6 @@
                 document.getElementById("myForm").style.display = "none";
             }
         </script>
-        -->
-
-        <form method="post">
-            <input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
-        </form>
 
     </body>
 </html>
