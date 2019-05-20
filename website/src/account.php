@@ -18,7 +18,9 @@ $u_pass = $row['password'];
 if (isset($_POST['submit'])) {
     header('Location: index.php');
 }
-
+if(array_key_exists('GoBack',$_POST)){
+        header('Location: index.php');
+    }
 
 ?>
 
@@ -51,6 +53,11 @@ if (isset($_POST['submit'])) {
 </div>
 
 <div >
+    <div class="d-flex justify-content-start">
+        <form  method="post">
+            <input class="btn btn-info" type="submit" name="GoBack" id="GoBack" value="Go Back">
+        </form>
+    </div>
     <form action="account.php" method="POST">
         <div class="container">
 
