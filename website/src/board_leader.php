@@ -32,7 +32,7 @@
 		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
-		if($flag === null ){
+		if($flag == false ){
 			echo '<script language="javascript">';
 			echo 'alert("Not able to add List")';
 			echo '</script>';
@@ -43,7 +43,6 @@
 	
 	function insertCard()
 	{
-	    echo 'insert';
 		
 		global $newCardName;
 		global $newCardDesc;
@@ -69,8 +68,27 @@
 		
 	}
 	
+	function deleteList()
+	{
+		
+		global $mysqli;
+		$oldListId = $_POST['delListBut'];
+		
+		$cred_query = "delete from list where id = '$oldListId'";
+		
+		
+		$flag = mysqli_query($mysqli, $cred_query);
+		
+		
+		if($flag === null ){
+			echo '<script language="javascript">';
+			echo 'alert("Not able to delete List")';
+			echo '</script>';
+		}else{
+			header("Refresh:0");
+		}
+	}
 	
-
 	if (array_key_exists('user_id',$_POST)){
 		$user_id = $_POST['user_id'];
 		$proj_id = $_POST['project_id'];
@@ -86,12 +104,12 @@
 		$board_id = $_SESSION['board_id'];
 	}
 	
-	/*
+
 	//Fetching project information.
-	$query_proj_info = "SELECT * FROM Project WHERE id = 1";
+	$query_proj_info = "SELECT * FROM project WHERE id = '" . $proj_id . "' ";
 	$result_pr = mysqli_query($mysqli, $query_proj_info);
-	$row_pr = mysqli_fetch_assoc($result_pr);
-	*/
+	$row_pr = mysqli_fetch_array($result_pr);
+	
 	
 	//Fetching board information.
 	$query_board_info = "SELECT * FROM board WHERE id = '" . $board_id . "' ";
@@ -128,7 +146,9 @@
 		insertCard();
 	}
 
-
+	if(array_key_exists('delListBut',$_POST)){
+		deleteList();
+	}
 	
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
@@ -201,6 +221,11 @@ while ($row = mysqli_fetch_array($result_li))
 	
 
 	echo '<h3>List '. $l_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
+	
+	echo '<form method="post" action="board_leader.php" class="form-container">';
+	echo '<button class="newcardBut" name = delListBut type="submit" value ='. $l_id .'>X</button>';
+	echo '</form>';
+	
 	echo '<div style="overflow: scroll;">';
 
 	echo '<p>'. $l_desc .'</p>';

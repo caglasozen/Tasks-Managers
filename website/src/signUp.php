@@ -2,10 +2,6 @@
 	include "config.php";
 	session_start();
 
-	if (isset($_POST['sign'])) {
-        header('Location: form.php');
-    }
-
 	if(array_key_exists('GoBack',$_POST)){
 		header('Location: form.php');
 	}
@@ -29,7 +25,19 @@
 		$experience = $_POST['experience'];
 
 		$sql = "INSERT INTO user (ID, email, password, first_name, last_name,experience) VALUES (LAST_INSERT_ID(), '$email', '$password' ,'$first_name','$last_name','	$experience')";
-		$insertq = mysqli_query($mysqli, $sql);	
+		$insertq = mysqli_query($mysqli, $sql);
+
+		if($insertq == false)
+        {
+            echo '<script language="javascript">';
+            echo 'alert("Sign up failed, this E-mail is already registered.")';
+            echo '</script>';
+        }
+		else
+        {
+            header('Location: form.php');
+        }
+
 
 	}
 
