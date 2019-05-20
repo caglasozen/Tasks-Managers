@@ -42,9 +42,7 @@
 	}
 	
 	function insertCard()
-	{
-	    echo 'insert';
-		
+	{		
 		global $newCardName;
 		global $newCardDesc;
 		global $newCardDue;
