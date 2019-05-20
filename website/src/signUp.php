@@ -6,6 +6,9 @@
         header('Location: form.php');
     }
 
+	if(array_key_exists('GoBack',$_POST)){
+		header('Location: form.php');
+	}
 
 ?>
 <!DOCTYPE html>
@@ -30,19 +33,22 @@
 
 	}
 
+
 	?>
 </div>
 
 <div >
+	<div class="d-flex justify-content-start">
+       	<form  method="post">
+			<input class="btn btn-info" type="submit" name="GoBack" id="GoBack" value="Go Back">
+		</form>
+	</div>
 	<form action="signUp.php" method="POST">
 		<div class="container">
 				
 			<div class="row justify-content-center">
 
-                <div class="col-sm">
-                	<form  align="right" method="post">
-					<input  class="form-control"type="submit" name="GoBack" id="GoBack" value="Go Back"/>
-                </div>
+                <div class="col-sm-4"> </div>
              
 				<div class="col-sm-3">
 					<h1> Sign Up </h1>
