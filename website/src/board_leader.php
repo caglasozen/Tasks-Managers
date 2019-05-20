@@ -42,7 +42,8 @@
 	}
 	
 	function insertCard()
-	{		
+	{
+		
 		global $newCardName;
 		global $newCardDesc;
 		global $newCardDue;
@@ -86,12 +87,12 @@
 		$board_id = $_SESSION['board_id'];
 	}
 	
-	/*
+
 	//Fetching project information.
-	$query_proj_info = "SELECT * FROM Project WHERE id = 1";
+	$query_proj_info = "SELECT * FROM project WHERE id = '" . $proj_id . "' ";
 	$result_pr = mysqli_query($mysqli, $query_proj_info);
-	$row_pr = mysqli_fetch_assoc($result_pr);
-	*/
+	$row_pr = mysqli_fetch_array($result_pr);
+	
 	
 	//Fetching board information.
 	$query_board_info = "SELECT * FROM board WHERE id = '" . $board_id . "' ";
