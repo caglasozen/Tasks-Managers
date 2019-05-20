@@ -15,60 +15,6 @@
 		header('Location: index.php');
 	}
 	
-	function insertList()
-	{
-		global $newListName;
-		global $newListDesc;
-		global $newListDue;
-		global $board_id;
-		global $mysqli;
-	
-		
-		$date = date('Y-m-d');
-		
-		$cred_query = "insert into list(name, description, issue_date,due_date,board_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','$board_id')";
-		
-		
-		$flag = mysqli_query($mysqli, $cred_query);
-		
-		
-		if($flag === null ){
-			echo '<script language="javascript">';
-			echo 'alert("Not able to add List")';
-			echo '</script>';
-		}else{
-			header("Refresh:0");
-		}
-	}
-	
-	function insertCard()
-	{
-		
-		$list_id = $_POST['newCardBut'];
-		
-		global $newCardName;
-		global $newCardDesc;
-		global $newCardDue;
-		global $mysqli;
-		
-		
-		$date = date('Y-m-d');
-
-		/*
-		$cred_query = "insert into Card(name, description, issue_date,due_date,status, assigned_ID, list_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','NOT STARTED','1','1')";
-		
-		$flag = mysqli_query($mysqli, $cred_query);
-		
-		
-		if($flag === null ){
-			echo '<script language="javascript">';
-			echo 'alert("Not able to add Card")';
-			echo '</script>';
-		}else{
-			header("Refresh:0");
-		}*/
-		
-	}
 	
 	/*
 	$user_id = $_SESSION['user_id'];
@@ -101,25 +47,6 @@
 	 */
 	
 	
-	if(isset($_POST['submitList'])){
-		
-		$newListName = mysqli_real_escape_string($mysqli,$_POST['listName']);
-		$newListDesc = mysqli_real_escape_string($mysqli,$_POST['listDesc']);
-		$newListDue = mysqli_real_escape_string($mysqli,$_POST['listDue']);
-		
-		insertList();
-
-	}
-	
-	if(isset($_POST['submitCard'])){
-		
-		$newCardName = mysqli_real_escape_string($mysqli,$_POST['cardName']);
-		$newCardDesc = mysqli_real_escape_string($mysqli,$_POST['cardDesc']);
-		$newCardDue = mysqli_real_escape_string($mysqli,$_POST['cardDue']);
-		
-		insertCard();
-		
-	}
 	
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
@@ -160,7 +87,7 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '<div class="column">';
 	
 
-	echo '<h3>List '. $l_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
+	echo '<h3>List '. $l_name .'  </h3>';
 	echo '<div style="overflow: scroll;">';
 
 	echo '<p>'. $l_desc .'</p>';
@@ -180,7 +107,7 @@ while ($row = mysqli_fetch_array($result_li))
 		$c_assID = $row['assigned_ID'];
 
 		echo '<div class="card">';
-		echo '<h3>Card  '. $c_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
+		echo '<h3>Card  '. $c_name .'  </h3>';
 		echo '<div style="overflow: scroll;">';
 		
 		echo '<p>'. $c_desc .'</p>';

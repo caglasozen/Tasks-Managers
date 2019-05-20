@@ -2,16 +2,14 @@
 include "config.php";
 session_start();
 
-$user = $_SESSION['user_name'];
-$userPrint = strtoupper($user);
-$c_id = $_SESSION['password'];
+$user = $_SESSION['user_id'];
 
 
-$query = "SELECT * FROM user WHERE email =  '".$user."' ";
+
+$query = "SELECT * FROM user WHERE ID =  '".$user."' ";
 $result = mysqli_query($mysqli,$query);
 $row = mysqli_fetch_array($result);
 $u_email = $row['email'];
-$user = $row['ID'];
 $f_name =  $row['first_name'];
 $l_name =  $row['last_name'];
 $exp = $row['experience'];
@@ -46,7 +44,6 @@ if (isset($_POST['submit'])) {
         $sql = "UPDATE user SET email = '$email', password = '$password', first_name = '$first_name', last_name ='$last_name' ,experience = '$experience'
         WHERE ID = '$user' ";
         $insertq = mysqli_query($mysqli, $sql);
-
 
     }
 
