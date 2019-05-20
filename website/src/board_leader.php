@@ -49,6 +49,8 @@
 		global $newCardDue;
 		global $mysqli;
         global $newCardListId;
+
+		
 		
 		$date = date('Y-m-d');
 
@@ -83,6 +85,27 @@
 		if($flag === null ){
 			echo '<script language="javascript">';
 			echo 'alert("Not able to delete List")';
+			echo '</script>';
+		}else{
+			header("Refresh:0");
+		}
+	}
+	
+	function deleteCard()
+	{
+	
+		global $mysqli;
+		$oldCardId = $_POST['delCardBut'];
+		
+		$cred_query = "delete from card where id = '$oldCardId'";
+		
+		
+		$flag = mysqli_query($mysqli, $cred_query);
+		
+		
+		if($flag === null ){
+			echo '<script language="javascript">';
+			echo 'alert("Not able to delete Card")';
 			echo '</script>';
 		}else{
 			header("Refresh:0");
@@ -148,6 +171,10 @@
 
 	if(array_key_exists('delListBut',$_POST)){
 		deleteList();
+	}
+	
+	if(array_key_exists('delCardBut',$_POST)){
+		deleteCard();
 	}
 	
 	if(array_key_exists('Logout',$_POST)){
@@ -237,12 +264,18 @@ while ($row = mysqli_fetch_array($result_li))
 	
 	while ($row = mysqli_fetch_array($result_ca))
 	{
-		$c_id = $row['ID'];
+		$c_id = $row['id'];
 		$c_name = $row['name'];
 		$c_desc = $row['description'];
 		$c_due = $row['due_date'];
 		$c_stat = $row['status'];
 		$c_assID = $row['assigned_ID'];
+		
+		echo $c_id;
+		
+		echo '<form method="post" action="board_leader.php" class="form-container">';
+		echo '<button class="newcardBut" name = delCardBut type="submit" value ="'. $c_id .'">X</button>';
+		echo '</form>';
 
 		echo '<div class="card">';
 		echo '<h3>Card  '. $c_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
@@ -285,7 +318,7 @@ while ($row = mysqli_fetch_array($result_li))
 
     <?php
         //newCardButton form submitted.
-        if(array_key_exists('newCardBut', $_POST)){
+        if(array_key_exists('newCardBut',$_POST)){
             echo '<script type="text/javascript">newCard();</script>';
         }
     ?>
