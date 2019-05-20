@@ -46,10 +46,10 @@
 
 
     //Fetching projects.
-    $query_projects = "(select project.name, project.id from workon, project 
-                            where (manager_id = $user_id OR leader_id = $user_id) AND project.id = workon.project_id )
-                        union (select distinct project.name, project.id from workon, member, project 
-                            where member.member_id = $user_id AND member.team_id = workon.team_id AND project.id = workon.project_id);";
+    $query_projects = "(select Project.name,Project.id from WorkOn, Project 
+                            where (manager_id = $user_id OR leader_id = $user_id) AND Project.id = WorkOn.project_id )
+                        union (select distinct Project.name, Project.id from WorkOn, Member, Project 
+                            where Member.member_id = $user_id AND Member.team_id = WorkOn.team_id AND Project.id = WorkOn.project_id);";
     $result = mysqli_query($mysqli, $query_projects);
     $project_num = mysqli_num_rows($result);
 
@@ -91,8 +91,8 @@
         $_SESSION['project_index'] = $selected_project_index;
 
         $query_project_info = "select name, description, app_domain, issue_date, due_date, budget, manager_id, project.id 
-                                from project, workon 
-                                where project.id = $project_ids[$selected_project_index] and workon.project_id = project.id;";
+                                from Project, WorkOn 
+                                where Project.id = $project_ids[$selected_project_index] and WorkOn.project_id = project.id;";
         $result = mysqli_query($mysqli, $query_project_info);
 
         $row = mysqli_fetch_assoc($result);
@@ -110,7 +110,7 @@
         }
 
         //Fetching team names
-        $query_teams = "select team.name, team.id from project, workon, team where workon.project_id = project.id and project_id = $selected_project_id and workon.team_id = team.id;";
+        $query_teams = "select Team.name, Team.id from Project, WorkOn, Team where WorkOn.project_id = Project.id and project_id = $selected_project_id and WorkOn.team_id = Team.id;";
         $result = mysqli_query($mysqli, $query_teams);
         $number_of_teams = mysqli_num_rows($result);
         if($number_of_teams > 0){
@@ -134,7 +134,7 @@
 
 
 	    //fetching team boards
-	    $query_team_boards = "select id, name from board where team_id = $selected_team_id;";
+	    $query_team_boards = "select id, name from Board where team_id = $selected_team_id;";
 	    $result = mysqli_query($mysqli, $query_team_boards);
 
 	    $number_of_boards = mysqli_num_rows($result);
@@ -146,7 +146,7 @@
             }
         }
 
-	    $query_team_leader = "select leader_id from workon where team_id = $selected_team_id;";
+	    $query_team_leader = "select leader_id from WorkOn where team_id = $selected_team_id;";
 	    $result = mysqli_query($mysqli, $query_team_leader);
 
 	    if(mysqli_num_rows($result) > 0){

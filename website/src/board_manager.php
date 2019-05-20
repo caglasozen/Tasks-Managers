@@ -51,7 +51,8 @@
 		
 		
 		$date = date('Y-m-d');
-		
+
+		/*
 		$cred_query = "insert into Card(name, description, issue_date,due_date,status, assigned_ID, list_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','NOT STARTED','1','1')";
 		
 		$flag = mysqli_query($mysqli, $cred_query);
@@ -63,7 +64,7 @@
 			echo '</script>';
 		}else{
 			header("Refresh:0");
-		}
+		}*/
 		
 	}
 	
