@@ -27,7 +27,7 @@
     $selected_team_id = -1;
 
 
-    $selected_team_index = -1;
+    $selected_team_index = $_SESSION['team_index'];
 
     $board_names = [];
     $board_ids = [];
@@ -35,6 +35,31 @@
     function logOut() {
         session_destroy();
         header('Location: form.php');
+    }
+
+    function createBoard($db, $board_name, $board_desc, $board_issue, $board_due, $team_id){
+        echo 'in func';
+        $query_create_board = "insert into board (name, description, issue_date, due_date, team_id) 
+                                values ('$board_name', '$board_desc', '$board_issue', '$board_due', $team_id);";
+
+        if (mysqli_query($db, $query_create_board)) {
+            echo 'alert("Board Created!")';
+        } else {
+            echo "Error: " . $query_create_board . "<br>" . mysqli_error($db);
+        }
+
+    }
+
+    function deleteBoard($db){
+        $board_id = $_POST['board_id'];
+        $query_delete_board = "delete from board where id= $board_id;";
+        mysqli_query($db, $query_delete_board);
+
+        if (mysqli_query($db, $query_delete_board)) {
+            echo 'alert("Board Deleted!")';
+        } else {
+            echo "Error: " . $query_delete_board . "<br>" . mysqli_error($db);
+        }
     }
 
 	//Fetching user information.
@@ -124,8 +149,16 @@
 
 
 	//Team is selected.
-	if(array_key_exists('team_button', $_POST)){
-	    $selected_team_index = $_POST['team_button'];
+	if(array_key_exists('team_button', $_POST)|| $selected_team_index > -1){
+
+        if(array_key_exists('team_button', $_POST)){
+            $selected_team_index = $_POST['team_button'];
+        }else {
+            $selected_team_index = $_SESSION['team_index'];
+        }
+
+        $_SESSION['team_index'] = $selected_team_index;
+
 	    $selected_team_id = $project_team_ids[$selected_team_index];
 	    $selected_team_name = $project_team_names[$selected_team_index];
 
@@ -166,10 +199,20 @@
     }
 
 
-
 	if (isset($_POST['account'])) {
         header('Location: account.php');
     }
+
+
+	if(array_key_exists('create_board_button', $_POST)) {
+        createBoard($mysqli, $_POST['board_name'], $_POST['board_desc'], date('Y-m-d'), $_POST['board_due'], $selected_team_id);
+
+    }
+
+    //delete board
+	if(array_key_exists('board_delete', $_POST) ){
+        deleteBoard($mysqli);
+	}
 
 ?>
 
@@ -307,50 +350,50 @@
                         }
 
                         echo '<input type="submit" name="homepage_setup" value="Go to the board!"/>';
+                        echo '<button type="submit" name="board_delete" formaction="index.php">Delete Board</button>';
                         echo '<input type="hidden" name="project_id" value="' . $selected_project_id . '" />';
                         echo '<input type="hidden" name="user_id" value="' . $user_id . '" />';
                         echo '</form>';
                     }
 
-                    //create boards pop-up.
-                /*
+
+
                     if($user_level == 1){
-                        echo '<button class="open-button" onclick="openForm()">Open Form</button>';
+                        //create board pop-up.
+                        echo '<button class="open-button" onclick="openCreateForm()">Create Board</button>';
 
                         echo '<div class="create_board" id="create_board">';
-                        echo '<form action="/action_page.php" class="form-container">';
-                        echo '<h1>Login</h1>';
-                        echo '<label for="email"><b>Email</b></label>';
-                        echo '<input type="text" placeholder="Enter Email" name="email" required>';
-                        echo '<label for="psw"><b>Password</b></label>';
-                        echo '<input type="password" placeholder="Enter Password" name="psw" required>';
-                        echo '<button type="submit" class="btn">Login</button>';
-                        echo '<button type="button" class="btn cancel" onclick="closeForm()">Close</button>';
-                        echo '</form>';
+                            echo '<form action="index.php" class="form-container" method="post">';
+                            echo '<h1>Create Board</h1>';
+
+                            echo '<label for="board_name"><b>Board Name</b></label>';
+                            echo '<input type="text" placeholder="Enter Board Name" name="board_name" required>';
+
+                            echo '<label for="board_desc"><b>Description</b></label>';
+                            echo '<input type="text" placeholder="Enter Description" name="board_desc" required>';
+
+                            echo '<label for="board_due"><b>Due Date</b></label>';
+                            echo '<input type="date" name="board_due" required>';
+
+                            echo '<button type="submit" name="create_board_button" class="btn">Create Board</button>';
+                            echo '<button type="button" class="btn cancel" onclick="closeCreateForm()">Close</button>';
+                            echo '</form>';
                         echo '</div>';
 
-
                     }
-                */
 
                 ?>
         </div>
 
-        <!--
         <script>
-            function openForm() {
-                document.getElementById("myForm").style.display = "block";
+            function openCreateForm() {
+                document.getElementById("create_board").style.display = "block";
             }
 
-            function closeForm() {
-                document.getElementById("myForm").style.display = "none";
+            function closeCreateForm() {
+                document.getElementById("create_board").style.display = "none";
             }
         </script>
-        -->
-
-        <form method="post">
-            <input type="submit" name="Logout" id="Logout" value="Logout" /><br/>
-        </form>
 
     </body>
 </html>

@@ -245,22 +245,22 @@ while ($row = mysqli_fetch_array($result_li))
 </div>
 
 <div class="form-popup" id="ListForm">
-<form method="post" action="board_manager.php" class="form-container" >
-<h1>Create New List</h1>
+    <form method="post" action="board_manager.php" class="form-container" >
+        <h1>Create New List</h1>
 
-<label for="listName"><b>List Name</b></label>
-<input type="text" placeholder="ListName" name="listName" required>
+        <label for="listName"><b>List Name</b></label>
+        <input type="text" placeholder="ListName" name="listName" required>
 
-<label for="listDesc"><b>Description</b></label>
-<input type="text" placeholder="Enter List Description" name="listDesc">
+        <label for="listDesc"><b>Description</b></label>
+        <input type="text" placeholder="Enter List Description" name="listDesc">
 
-<label for="listDue"><b>Due Date</b></label>
-<input type="date" name="listDue" required>
+        <label for="listDue"><b>Due Date</b></label>
+        <input type="date" name="listDue" required>
 
 
-<button type="submit" name="submitList" id="submitList" class="but">Add List</button>
-<button type="button" class="but_cancel"  onclick="closeNewList()">Close</button>
-</form>
+        <button type="submit" name="submitList" id="submitList" class="but">Add List</button>
+        <button type="button" class="but_cancel"  onclick="closeNewList()">Close</button>
+    </form>
 </div>
 
 <div class="logoutButton">
