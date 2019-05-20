@@ -44,19 +44,19 @@
 	function insertCard()
 	{
 		
-		$list_id = $_POST['newCardBut'];
-		
 		global $newCardName;
 		global $newCardDesc;
 		global $newCardDue;
 		global $mysqli;
+        global $newCardListId;
+
 		
 		
 		$date = date('Y-m-d');
 
-		/*
-		$cred_query = "insert into Card(name, description, issue_date,due_date,status, assigned_ID, list_ID) values ('$newListName', '$newListDesc' ,'$date','$newListDue','NOT STARTED','1','1')";
-		
+
+        $cred_query = "insert into card (name, description, issue_date, due_date, list_id, status) 
+                        values ('$newCardName', '$newCardDesc', '$date', '$newCardDue', '$newCardListId', 'not started')";
 		$flag = mysqli_query($mysqli, $cred_query);
 		
 		
@@ -66,7 +66,7 @@
 			echo '</script>';
 		}else{
 			header("Refresh:0");
-		}*/
+		}
 		
 	}
 	
@@ -87,12 +87,12 @@
 		$board_id = $_SESSION['board_id'];
 	}
 	
-	/*
+
 	//Fetching project information.
-	$query_proj_info = "SELECT * FROM Project WHERE id = 1";
+	$query_proj_info = "SELECT * FROM project WHERE id = '" . $proj_id . "' ";
 	$result_pr = mysqli_query($mysqli, $query_proj_info);
-	$row_pr = mysqli_fetch_assoc($result_pr);
-	*/
+	$row_pr = mysqli_fetch_array($result_pr);
+	
 	
 	//Fetching board information.
 	$query_board_info = "SELECT * FROM board WHERE id = '" . $board_id . "' ";
@@ -119,16 +119,17 @@
 		insertList();
 
 	}
-	
+
 	if(isset($_POST['submitCard'])){
-		
+
 		$newCardName = mysqli_real_escape_string($mysqli,$_POST['cardName']);
 		$newCardDesc = mysqli_real_escape_string($mysqli,$_POST['cardDesc']);
 		$newCardDue = mysqli_real_escape_string($mysqli,$_POST['cardDue']);
-		
+		$newCardListId = $_POST['selected_list'];
 		insertCard();
-		
 	}
+
+
 	
 	if(array_key_exists('Logout',$_POST)){
 		logOut();
@@ -149,21 +150,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script>
-function newCard() {
-	document.getElementById("cardForm").style.display = "block";
-}
+    function newCard() {
+        document.getElementById("cardForm").style.display = "block";
+    }
 
-function closeNewCard() {
-	document.getElementById("cardForm").style.display = "none";
-}
+    function closeNewCard() {
+        document.getElementById("cardForm").style.display = "none";
+    }
 
-function newList() {
-	document.getElementById("ListForm").style.display = "block";
-}
+    function newList() {
+        document.getElementById("ListForm").style.display = "block";
+    }
 
-function closeNewList() {
-	document.getElementById("ListForm").style.display = "none";
-}
+    function closeNewList() {
+        document.getElementById("ListForm").style.display = "none";
+    }
 
 </script>
 
@@ -192,9 +193,11 @@ while ($row = mysqli_fetch_array($result_li))
 	
 	echo '<div class="column">';
 	echo '<div class="cornBut">';
-	
-	echo '<button class="newcardBut" type="submit" name = newCardBut value ='. $l_id .' onclick="newCard()">+</button>';
-	
+
+
+    echo '<form method="post" action="board_leader.php" class="form-container">';
+	echo '<button class="newcardBut" name = newCardBut type="submit" value ='. $l_id .'>+</button>';
+	echo '</form>';
 	echo '</div>';
 	
 
@@ -237,21 +240,31 @@ while ($row = mysqli_fetch_array($result_li))
 
 <div class="form-popup" id="cardForm">
 <form method="post" action="board_leader.php" class="form-container">
-<h1>Create New Card</h1>
+    <h1>Create New Card</h1>
 
-<label for="cardName">Card Name</b></label>
-<input type="text" placeholder="CardName" name="CardName" required>
+    <label for="cardName">Card Name</b></label>
+    <input type="text" placeholder="CardName" name="cardName" required>
 
-<label for="cardDesc"><b>Description</b></label>
-<input type="text" placeholder="Enter List Description" name="cardDesc">
+    <label for="cardDesc"><b>Description</b></label>
+    <input type="text" placeholder="Enter List Description" name="cardDesc">
 
-<label for="cardDue"><b>Due Date</b></label>
-<input type="date" name="cardDue" required>
+    <label for="cardDue"><b>Due Date</b></label>
+    <input type="date" name="cardDue" required>
 
-<button type="submit" name="submitCard" id="submitCard" class="but">Add Card</button>
-<button type="button" class="but_cancel"  onclick="closeNewCard()">Close</button>
+    <input type="hidden" name="selected_list" value="<?php if(array_key_exists('newCardBut', $_POST)){echo $_POST['newCardBut']; }?>"/>
+
+    <button type="submit" name="submitCard" id="submitCard" class="but">Add Card</button>
+    <button type="button" class="but_cancel"  onclick="closeNewCard()">Close</button>
 </form>
 </div>
+
+
+    <?php
+        //newCardButton form submitted.
+        if(array_key_exists('newCardBut',$_POST)){
+            echo '<script type="text/javascript">newCard();</script>';
+        }
+    ?>
 
 <div class="form-popup" id="ListForm">
 <form method="post" action="board_leader.php" class="form-container" >
