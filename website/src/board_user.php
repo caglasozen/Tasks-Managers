@@ -16,13 +16,22 @@
 	}
 	
 	
-	/*
-	$user_id = $_SESSION['user_id'];
-	$proj_id = $_SESSION['project_id'];
-	$board_id = $_SESSION['board_id'];
-	*/
+
+	if (array_key_exists('user_id',$_POST)){
+		$user_id = $_POST['user_id'];
+		$proj_id = $_POST['project_id'];
+		$board_id = $_POST['board_id'];
+		
+		$_SESSION['user_id'] = $user_id;
+		$_SESSION['$project_id'] = $proj_id;
+		$_SESSION['board_id'] = $board_id;
+	}
+	else{
+		$user_id = $_SESSION['user_id'];
+		$proj_id = $_SESSION['project_id'];
+		$board_id = $_SESSION['board_id'];
+	}
 	
-	$board_id = 1;
 	
 	/*
 	//Fetching project information.

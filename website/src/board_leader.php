@@ -70,13 +70,22 @@
 		
 	}
 	
-	/*
-	$user_id = $_SESSION['user_id'];
-	$proj_id = $_SESSION['project_id'];
-	$board_id = $_SESSION['board_id'];
-	*/
 	
-	$board_id = 1;
+
+	if (array_key_exists('user_id',$_POST)){
+		$user_id = $_POST['user_id'];
+		$proj_id = $_POST['project_id'];
+		$board_id = $_POST['board_id'];
+		
+		$_SESSION['user_id'] = $user_id;
+		$_SESSION['$project_id'] = $proj_id;
+		$_SESSION['board_id'] = $board_id;
+	}
+	else{
+		$user_id = $_SESSION['user_id'];
+		$proj_id = $_SESSION['project_id'];
+		$board_id = $_SESSION['board_id'];
+	}
 	
 	/*
 	//Fetching project information.
@@ -180,10 +189,6 @@ while ($row = mysqli_fetch_array($result_li))
 	$l_name = $row['name'];
 	$l_desc = $row['description'];
 	$l_due = $row['due_date'];
-	
-	echo '<script language="javascript">';
-	echo 'alert("NORRR '.$l_id.'")';
-	echo '</script>';
 	
 	echo '<div class="column">';
 	echo '<div class="cornBut">';
