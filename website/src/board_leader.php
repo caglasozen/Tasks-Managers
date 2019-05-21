@@ -246,12 +246,12 @@ while ($row = mysqli_fetch_array($result_li))
 	echo '</form>';
 	echo '</div>';
 	
-
-	echo '<h3>List '. $l_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
-	
 	echo '<form method="post" action="board_leader.php" class="form-container">';
-	echo '<button class="newcardBut" name = delListBut type="submit" value ='. $l_id .'>X</button>';
+	echo '<button class="newcardBut" name = delListBut type="submit" value ='. $l_id .'>X</button> <center>';
 	echo '</form>';
+
+	echo '<h3>List '. $l_name .'  </h3>';
+	
 	
 	echo '<div style="overflow: scroll;">';
 
@@ -278,7 +278,7 @@ while ($row = mysqli_fetch_array($result_li))
 		echo '</form>';
 
 		echo '<div class="card">';
-		echo '<h3>Card  '. $c_name .'  <a class="btn btn-sm btn-danger" href="#">X</a> </h3>';
+		echo '<h3>Card  '. $c_name .'  </h3>';
 		echo '<div style="overflow: scroll;">';
 		
 		echo '<p>'. $c_desc .'</p>';
