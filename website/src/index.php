@@ -39,7 +39,7 @@
 
     function createBoard($db, $board_name, $board_desc, $board_issue, $board_due, $team_id){
         $query_create_board = "insert into board (name, description, issue_date, due_date, team_id) 
-                                values ('$board_name', '$board_desc', '$board_issue', '$board_due', '$team_id');";
+                                values ('$board_name', '$board_desc', '$board_issue', '$board_due', $team_id);";
 
         if (mysqli_query($db, $query_create_board)) {
             header("Refresh:0");
@@ -52,7 +52,6 @@
     function deleteBoard($db){
         $board_id = $_POST['board_id'];
         $query_delete_board = "delete from board where id= $board_id;";
-        mysqli_query($db, $query_delete_board);
 
         if (mysqli_query($db, $query_delete_board)) {
             header("Refresh:0");
@@ -60,13 +59,15 @@
             echo "Error: " . $query_delete_board . "<br>" . mysqli_error($db);
         }
     }
+
     function createProject($db, $project_name, $project_desc,
                            $project_issue, $project_app,
                            $project_due, $project_budget){
 
         global $user_id;
+
         $query_create_project = "insert into project (name, description, issue_date, app_domain, due_date, budget) 
-                                  values ('$project_name', '$project_desc', '$project_issue', '$project_app', '$project_due', $project_budget)";
+                                  values ('$project_name', '$project_desc', '$project_issue', '$project_app', '$project_due', '$project_budget')";
 
         mysqli_query($db, $query_create_project);
 
@@ -91,7 +92,7 @@
             mysqli_query($db, $query_create_manager);
         }
 
-        $query_add_workon = "insert into workon (team_id, project_id, manager_id) values ($team_id, $project_id, $user_id);";
+        $query_add_workon = "insert into workon (team_id, project_id, manager_id) values ('$team_id', '$project_id', '$user_id');";
         mysqli_query($db, $query_add_workon);
 
         header("Refresh:0");
@@ -284,7 +285,7 @@
         </div>
 
         <div class="row"></div>
-    
+
         <h2>Welcome <?php echo $f_name . " " . $l_name ?> </h2>
         <h2>Title:
             <?php
@@ -299,7 +300,7 @@
             }
             ?>
         </h2>
- 
+
 
 
         <h2>Projects</h2>
@@ -308,7 +309,7 @@
 
         <!-- Projects of the User -->
         <div class="container">
-            
+
             <form action="index.php" method="post">
                 <?php
                 for($i = 0; $i < $project_num; $i++){
@@ -326,7 +327,7 @@
 
                 }
                 ?>
-                    
+                    <div>
                     Name: <?php echo "$selected_project_name"; ?> <br>
                     Description: <?php echo "$project_desc"; ?> <br>
                     Issue Date: <?php echo "$project_issue"; ?> <br>
@@ -334,7 +335,7 @@
                     Due Date: <?php echo "$project_due"; ?> <br>
                     Budget: <?php echo "$project_budget"; ?> <br>
                     Manager: <?php echo "$project_manager_id"?> <br>
-
+                    </div>
 
 
                 <!-- Teams of the project -->
@@ -366,68 +367,68 @@
                     <div>
                         <h3>Boards</h3>
 
-                            <?php
-                                if($number_of_boards > 0){
+            <?php
+                if($number_of_boards > 0){
 
-                                    if($user_level == 2){
-                                        echo '<form action="board_manager.php" method="post">';
-                                    }
-                                    else if ($user_level == 1){
-                                        echo '<form action="board_leader.php" method="post">';
-                                    }
-                                    else {
-                                        echo '<form action="board_user.php" method="post">';
-                                    }
+                    if($user_level == 2){
+                        echo '<form action="board_manager.php" method="post">';
+                    }
+                    else if ($user_level == 1){
+                        echo '<form action="board_leader.php" method="post">';
+                    }
+                    else {
+                        echo '<form action="board_user.php" method="post">';
+                    }
 
-                                    for($i = 0; $i < $number_of_boards; $i++){
+                    for($i = 0; $i < $number_of_boards; $i++){
 
-                                        echo '<input type="radio" name="board_id" value="' . $board_ids[$i] .'"/>';
-                                        echo '<span>' . $board_names[$i] . '</span><br>' ;
-                                    }
+                        echo '<input type="radio" name="board_id" value="' . $board_ids[$i] .'"/>';
+                        echo '<span>' . $board_names[$i] . '</span><br>' ;
+                    }
 
-                                    echo '<input type="submit" name="homepage_setup" value="Go to the board!"/>';
+                    echo '<input type="submit" name="homepage_setup" value="Go to the board!"/>';
 
-                                    if($user_level == 1){
-                                    echo '<button type="submit" name="board_delete" formaction="index.php">Delete Board</button>';
-                                    }
+                    if($user_level == 1){
+                    echo '<button type="submit" name="board_delete" formaction="index.php">Delete Board</button>';
+                    }
 
-                                    echo '<input type="hidden" name="project_id" value="' . $selected_project_id . '" />';
-                                    echo '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-                                    echo '</form>';
-                                }
+                    echo '<input type="hidden" name="project_id" value="' . $selected_project_id . '" />';
+                    echo '<input type="hidden" name="user_id" value="' . $user_id . '" />';
+                    echo '</form>';
+                }
 
 
 
-                                if($user_level == 1){
-                                    //create board pop-up.
-                                    echo '<button class="open-button" onclick="openCreateForm()">Create Board</button>';
+                if($user_level == 1){
+                    //create board pop-up.
+                    echo '<button class="open-button" onclick="openCreateForm()">Create Board</button>';
 
-                                    echo '<div class="create_board" id="create_board">';
-                                        echo '<form action="index.php" class="form-container" method="post">';
-                                        echo '<h1>Create Board</h1>';
+                    echo '<div class="create_board" id="create_board">';
+                        echo '<form action="index.php" class="form-container" method="post">';
+                        echo '<h1>Create Board</h1>';
 
-                                        echo '<label for="board_name"><b>Board Name</b></label>';
-                                        echo '<input type="text" placeholder="Enter Board Name" name="board_name" required>';
+                        echo '<label for="board_name"><b>Board Name</b></label>';
+                        echo '<input type="text" placeholder="Enter Board Name" name="board_name" required>';
 
-                                        echo '<label for="board_desc"><b>Description</b></label>';
-                                        echo '<input type="text" placeholder="Enter Description" name="board_desc" required>';
+                        echo '<label for="board_desc"><b>Description</b></label>';
+                        echo '<input type="text" placeholder="Enter Description" name="board_desc" required>';
 
-                                        echo '<label for="board_due"><b>Due Date</b></label>';
-                                        echo '<input type="date" name="board_due" required>';
+                        echo '<label for="board_due"><b>Due Date</b></label>';
+                        echo '<input type="date" name="board_due" required>';
 
-                                        echo '<button type="submit" name="create_board_button" class="btn">Create Board</button>';
-                                        echo '<button type="button" class="btn cancel" onclick="closeCreateForm()">Close</button>';
-                                        echo '</form>';
-                                    echo '</div>';
+                        echo '<button type="submit" name="create_board_button" class="btn">Create Board</button>';
+                        echo '<button type="button" class="btn cancel" onclick="closeCreateForm()">Close</button>';
+                        echo '</form>';
+                    echo '</div>';
 
-                                }
+                }
 
-                            ?>
-                    </div>
+            ?>
+        </div>
 
-                
-                
-             
+
+
+
                     <button class="open-create-project" onclick="openCreateProject()">Create Project</button>
 
                     <div class="create_project" id="create_project">
@@ -453,18 +454,18 @@
                             <button type="button" class="btn cancel" onclick="closeCreateProject()">Close</button>
                             </form>
                     </div>
-    
+
 
 
                  <!-- Project Information -->
 
-    
+
             </form>
         </div>
-            
+
 </div>
 
-       
+
 
         <script>
             function openCreateForm() {
@@ -483,6 +484,67 @@
                 document.getElementById("create_project").style.display = "none";
             }
         </script>
+
+
+        <!-- Manage Teams -->
+
+        <!-- Trigger/Open The Modal -->
+        <form action="index.php" class="form-container" method="post">
+            <button type="submit" name="modal_button" id="myBtn" class="projectButton">Manage Teams</button>
+        </form>
+
+        <?php
+            if (isset($_POST['modal_button'])) {
+                echo 'hi';
+            }
+
+        ?>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2>Modal Header</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
+                <div class="modal-footer">
+                    <h3>Modal Footer</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            function openManageButton() {
+                document.getElementById("myModal").style.display = "block";
+            }
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+        </script>
+
 
     </body>
 </html>
