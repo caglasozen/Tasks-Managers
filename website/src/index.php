@@ -148,6 +148,16 @@
         }
     }
 
+    function createTeam($db, $team_name, $department, $task, $team_id, $project_id){
+        $query_create_team = "insert into team (department, task, name) values ('$department', '$task', '$team_name');";
+        mysqli_query($db, $query_create_team);
+
+        //$query_update_workon = "insert into workon (team_id, )"
+
+
+    }
+
+
 	//Fetching user information.
 	$query_user_info = "SELECT * FROM user WHERE id = $user_id";
 	$result = mysqli_query($mysqli, $query_user_info);
@@ -315,6 +325,10 @@
 
     if(array_key_exists('delete_user_button', $_POST) ){
         deleteUser($mysqli, $_POST['delete_mail'], $selected_team_id);
+    }
+
+    if(array_key_exists('create_team_button', $_POST) ){
+        createTeam($mysqli, $_POST['new_team_name'], $_POST['new_team_department'], $_POST['new_team_task'], $selected_team_id, $selected_project_id);
     }
 
 
@@ -518,10 +532,6 @@
                     </div>
 
 
-
-                 <!-- Project Information -->
-
-
             </form>
         </div>
 
@@ -555,6 +565,8 @@
             if($user_level == 2 && $selected_team_id > -1){
                 echo '<button name="modal_button" id="myBtn" class="projectButton">Add User to Team</button>';
                 echo '<button name="delete_modal_button" id="delete_modal_button" class="projectButton">Remove User From Team</button>';
+                echo '<button name="create_team_button" id="create_team_button" class="projectButton">Create Team</button>';
+
             }
         ?>
 
@@ -585,8 +597,6 @@
 
         </div>
 
-
-
         <!-- Delete Modal -->
         <div id="deleteModal" class="modal">
 
@@ -612,18 +622,52 @@
 
         </div>
 
+        <!-- Create Team -->
+        <div id="createTeamModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" id="create_team_span">&times;</span>
+                    <h2>Create Team</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="index.php" class="form-container" method="post">
+
+                        <label for="new_team_name"><b>Team Name</b></label>
+                        <input type="text" placeholder="Insert Team Name" name="new_team_name">
+
+                        <label for="new_team_department"><b>Team's Department</b></label>
+                        <input type="text" placeholder="Enter Department" name="new_team_department">
+
+                        <label for="new_team_task"><b>Team's Task</b></label>
+                        <input type="text" placeholder="Specify Task" name="new_team_task">
+
+                        <button type="submit" name="create_team_button" class="btn">Create Team</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <h3>Create Team</h3>
+                </div>
+            </div>
+
+        </div>
+
         <script>
             // Get the modal
             var modal = document.getElementById("myModal");
             var deleteModal = document.getElementById("deleteModal");
+            var createTeamModal = document.getElementById("createTeamModal");
 
             // Get the button that opens the modal
             var btn = document.getElementById("myBtn");
             var delete_btn = document.getElementById("delete_modal_button");
+            var create_team_btn = document.getElementById("create_team_button");
 
             // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
             var delete_span = document.getElementById("delSpan");
+            var create_team_span = document.getElementById("create_team_span");
 
             // When the user clicks the button, open the modal
             btn.onclick = function() {
@@ -643,6 +687,16 @@
             // When the user clicks on <span> (x), close the modal
             delete_span.onclick = function() {
                 deleteModal.style.display = "none";
+            }
+
+            // When the user clicks the button, open the modal
+            create_team_btn.onclick = function() {
+                createTeamModal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            create_team_span.onclick = function() {
+                createTeamModal.style.display = "none";
             }
 
         </script>
