@@ -132,6 +132,22 @@
 
     }
 
+    function deleteUser($db, $mail, $team_id){
+        $query_user_id = "select id from user where email = '$mail';";
+        $result = mysqli_query($db, $query_user_id);
+        if(mysqli_num_rows($result) < 1){
+            echo '<script>alert("User cannot found!");</script>>';
+        }
+        else {
+            $row = mysqli_fetch_assoc($result);
+            $user_id = $row['id'];
+
+            $query_delete_user = "delete from member where member_id='$user_id' and team_id = '$team_id';";
+            mysqli_query($db, $query_delete_user);
+
+        }
+    }
+
 	//Fetching user information.
 	$query_user_info = "SELECT * FROM user WHERE id = $user_id";
 	$result = mysqli_query($mysqli, $query_user_info);
@@ -296,6 +312,11 @@
     if(array_key_exists('add_user_button', $_POST) ){
         addUser($mysqli, $_POST['manage_email'], $_POST['manage_role'], $selected_team_id);
     }
+
+    if(array_key_exists('delete_user_button', $_POST) ){
+        deleteUser($mysqli, $_POST['delete_mail'], $selected_team_id);
+    }
+
 
 
 ?>
@@ -532,20 +553,19 @@
         <!-- Trigger/Open The Modal -->
         <?php
             if($user_level == 2 && $selected_team_id > -1){
-                echo '<form action="index.php" class="form-container" method="post">';
-                echo '<button type="submit" name="modal_button" id="myBtn" class="projectButton">Manage Teams</button>';
-                echo'</form>';
+                echo '<button name="modal_button" id="myBtn" class="projectButton">Add User to Team</button>';
+                echo '<button name="delete_modal_button" id="delete_modal_button" class="projectButton">Remove User From Team</button>';
             }
         ?>
 
-        <!-- The Modal -->
+        <!-- Insert Modal -->
         <div id="myModal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
-                    <h2>Modal Header</h2>
+                    <h2>Add User to Team</h2>
                 </div>
                 <div class="modal-body">
                     <form action="index.php" class="form-container" method="post">
@@ -559,28 +579,51 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <h3>Modal Footer</h3>
+                    <h3>Add User to Team</h3>
                 </div>
             </div>
 
         </div>
 
-        <?php
-            if (isset($_POST['modal_button'])) {
-                echo'<script>document.getElementById("myModal").style.display = "block";</script>';
-            }
 
-        ?>
+
+        <!-- Delete Modal -->
+        <div id="deleteModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" id="delSpan">&times;</span>
+                    <h2>Remove User from Team</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="index.php" class="form-container" method="post">
+                        <label for="delete_mail"><b>User Email</b></label>
+                        <input type="text" placeholder="Enter Email" name="delete_mail">
+
+
+                        <button type="submit" name="delete_user_button" class="btn">Remove User</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <h3>Remove User from Team</h3>
+                </div>
+            </div>
+
+        </div>
 
         <script>
             // Get the modal
             var modal = document.getElementById("myModal");
+            var deleteModal = document.getElementById("deleteModal");
 
             // Get the button that opens the modal
             var btn = document.getElementById("myBtn");
+            var delete_btn = document.getElementById("delete_modal_button");
 
             // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
+            var delete_span = document.getElementById("delSpan");
 
             // When the user clicks the button, open the modal
             btn.onclick = function() {
@@ -590,6 +633,16 @@
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
                 modal.style.display = "none";
+            }
+
+            // When the user clicks the button, open the modal
+            delete_btn.onclick = function() {
+                deleteModal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            delete_span.onclick = function() {
+                deleteModal.style.display = "none";
             }
 
         </script>
