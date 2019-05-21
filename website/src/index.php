@@ -190,11 +190,11 @@
 
         if(array_key_exists('team_button', $_POST)){
             $selected_team_index = $_POST['team_button'];
+            $_SESSION['team_index'] = $selected_team_index;
         }else {
             $selected_team_index = $_SESSION['team_index'];
         }
 
-        $_SESSION['team_index'] = $selected_team_index;
 
 	    $selected_team_id = $project_team_ids[$selected_team_index];
 	    $selected_team_name = $project_team_names[$selected_team_index];
