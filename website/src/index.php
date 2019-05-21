@@ -148,12 +148,21 @@
         }
     }
 
-    function createTeam($db, $team_name, $department, $task, $team_id, $project_id){
+    function createTeam($db, $team_name, $department, $task, $project_id){
+
+        global $user_id;
         $query_create_team = "insert into team (department, task, name) values ('$department', '$task', '$team_name');";
         mysqli_query($db, $query_create_team);
 
-        //$query_update_workon = "insert into workon (team_id, )"
+        $query_get_last_insert = "select LAST_INSERT_ID();";
+        $result = mysqli_query($db, $query_get_last_insert);
+        $row = mysqli_fetch_assoc($result);
+        $team_id = $row['LAST_INSERT_ID()'];
 
+        $query_update_workon = "insert into workon (team_id, project_id, manager_id) values ('$team_id', '$project_id', '$user_id');";
+        mysqli_query($db, $query_update_workon);
+
+        header("Refresh:0");
 
     }
 
@@ -328,7 +337,7 @@
     }
 
     if(array_key_exists('create_team_button', $_POST) ){
-        createTeam($mysqli, $_POST['new_team_name'], $_POST['new_team_department'], $_POST['new_team_task'], $selected_team_id, $selected_project_id);
+        createTeam($mysqli, $_POST['new_team_name'], $_POST['new_team_department'], $_POST['new_team_task'], $selected_project_id);
     }
 
 
