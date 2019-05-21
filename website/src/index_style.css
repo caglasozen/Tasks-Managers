@@ -321,7 +321,7 @@ input[type=button], input[type=submit], input[type=reset] {
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #4286f4;
     color: white;
 }
 
@@ -329,7 +329,7 @@ input[type=button], input[type=submit], input[type=reset] {
 
 .modal-footer {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #4286f4;
     color: white;
 }
 

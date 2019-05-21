@@ -99,6 +99,39 @@
 
     }
 
+    function addUser($db, $mail, $role, $team_id){
+        $query_new_user_id = "select id from user where email = '$mail';";
+        $result = mysqli_query($db, $query_new_user_id);
+
+        if(mysqli_num_rows($result) < 1){
+            echo '<script>alert("User cannot found!");</script>>';
+        }
+        else {
+
+            $row = mysqli_fetch_assoc($result);
+            $new_user_id = $row['id'];
+
+            $query_check_standard = "select count (*) from standarduser where id= '$new_user_id';";
+
+
+            $result = mysqli_query($db, $query_check_standard);
+            $row = mysqli_fetch_assoc($result);
+
+            if($row['count(*)'] < 1){
+                $query_create_standard = "insert into standarduser values ($new_user_id);";
+                mysqli_query($db, $query_create_standard);
+
+                $query_create_worker = "insert into worker (id) values ($new_user_id);";
+                mysqli_query($db, $query_create_worker);
+            }
+
+            $query_insert_member = "insert into member () values ($new_user_id, '$role', $team_id);";
+            mysqli_query($db, $query_insert_member);
+
+        }
+
+    }
+
 	//Fetching user information.
 	$query_user_info = "SELECT * FROM user WHERE id = $user_id";
 	$result = mysqli_query($mysqli, $query_user_info);
@@ -110,7 +143,10 @@
 
 
     //Fetching projects.
-    $query_projects = "(select project.name,project.id from workon, project where (manager_id = $user_id OR leader_id = $user_id) AND project.id = workon.project_id ) union (select distinct project.name, project.id from workon, member, project where member.member_id = $user_id AND member.team_id = workon.team_id AND project.id = workon.project_id);";
+    $query_projects = "(select project.name,project.id from workon, project 
+                        where (manager_id = $user_id OR leader_id = $user_id) AND project.id = workon.project_id ) 
+                        union (select distinct project.name, project.id from workon, member, project 
+                        where member.member_id = $user_id AND member.team_id = workon.team_id AND project.id = workon.project_id);";
     $result = mysqli_query($mysqli, $query_projects);
     $project_num = mysqli_num_rows($result);
 
@@ -256,6 +292,11 @@
                     date('Y-m-d'), $_POST['project_app_domain'], $_POST['project_due'],
                     $_POST['project_budget']);
     }
+
+    if(array_key_exists('add_user_button', $_POST) ){
+        addUser($mysqli, $_POST['manage_email'], $_POST['manage_role'], $selected_team_id);
+    }
+
 
 ?>
 
@@ -489,15 +530,12 @@
         <!-- Manage Teams -->
 
         <!-- Trigger/Open The Modal -->
-        <form action="index.php" class="form-container" method="post">
-            <button type="submit" name="modal_button" id="myBtn" class="projectButton">Manage Teams</button>
-        </form>
-
         <?php
-            if (isset($_POST['modal_button'])) {
-                echo 'hi';
+            if($user_level == 2 && $selected_team_id > -1){
+                echo '<form action="index.php" class="form-container" method="post">';
+                echo '<button type="submit" name="modal_button" id="myBtn" class="projectButton">Manage Teams</button>';
+                echo'</form>';
             }
-
         ?>
 
         <!-- The Modal -->
@@ -510,8 +548,15 @@
                     <h2>Modal Header</h2>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the Modal Body</p>
-                    <p>Some other text...</p>
+                    <form action="index.php" class="form-container" method="post">
+                        <label for="manage_email"><b>User Email</b></label>
+                        <input type="text" placeholder="Enter Email" name="manage_email">
+
+                        <label for="manage_role"><b>User Role</b></label>
+                        <input type="text" placeholder="Enter Role" name="manage_role">
+
+                        <button type="submit" name="add_user_button" class="btn">Add User</button>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <h3>Modal Footer</h3>
@@ -519,6 +564,13 @@
             </div>
 
         </div>
+
+        <?php
+            if (isset($_POST['modal_button'])) {
+                echo'<script>document.getElementById("myModal").style.display = "block";</script>';
+            }
+
+        ?>
 
         <script>
             // Get the modal
@@ -531,9 +583,6 @@
             var span = document.getElementsByClassName("close")[0];
 
             // When the user clicks the button, open the modal
-            function openManageButton() {
-                document.getElementById("myModal").style.display = "block";
-            }
             btn.onclick = function() {
                 modal.style.display = "block";
             }
