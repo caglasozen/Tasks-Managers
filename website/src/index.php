@@ -67,7 +67,7 @@
         global $user_id;
 
         $query_create_project = "insert into project (name, description, issue_date, app_domain, due_date, budget) 
-                                  values ('$project_name', '$project_desc', '$project_issue', '$project_app', '$project_due', $project_budget)";
+                                  values ('$project_name', '$project_desc', '$project_issue', '$project_app', '$project_due', '$project_budget')";
 
         mysqli_query($db, $query_create_project);
 
@@ -92,7 +92,7 @@
             mysqli_query($db, $query_create_manager);
         }
 
-        $query_add_workon = "insert into workon (team_id, project_id, manager_id) values ($team_id, $project_id, $user_id);";
+        $query_add_workon = "insert into workon (team_id, project_id, manager_id) values ('$team_id', '$project_id', '$user_id');";
         mysqli_query($db, $query_add_workon);
 
         header("Refresh:0");
@@ -435,7 +435,7 @@
         </div>
 
         <!--  Create Project  -->
-        <button class="open-create-project" onclick="openCreateProject()">Create Project</button>
+        <button type="button" class="open-create-project" onclick="openCreateProject()">Create Project</button>
 
         <div class="create_project" id="create_project">
             <form action="index.php" class="form-container" method="post">
