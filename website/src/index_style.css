@@ -11,19 +11,19 @@ body{
     text-align:left;
     background-color: rgb(240,240,240);
     font-family: arial, sans-serif, italic;
-    margin: 50px 400px;
+   
 }
 
 h1 {
     color: navy;
     font-family: arial, sans-serif;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 h1 {
     color: #4286f4;
     font-family: arial, sans-serif;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 table {
@@ -41,6 +41,54 @@ th {
     background-color: #4286f4;
     color: white;
 }
+.open-create-project {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+ 
+    bottom: 150px;
+    right: 28px;
+    width: 280px;
+}
+.create_project {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.container {
+  
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 90%;
+  height: 600px;
+}
+.container2 {
+position: absolute;
+  float: left;
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  left: 30px;
+  width: 70%;
+  height: 500px;
+}
+.logoutButton {
+  position:absolute;
+   right:10px;
+   top:20px;
+   }
+
+.accountButton {
+   position:absolute;
+   right:120px;
+   top:20px;
+   }
 
 .center {
     position: absolute;
@@ -148,6 +196,16 @@ th {
      */
 }
 
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
 .open-button {
     background-color: #555;
     color: white;
@@ -155,36 +213,14 @@ th {
     border: none;
     cursor: pointer;
     opacity: 0.8;
-    position: fixed;
-    bottom: 23px;
-    right: 28px;
-    width: 280px;
-}
 
-.open-create-project {
-    background-color: #555;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: fixed;
-    bottom: 150px;
+    bottom: 23px;
     right: 28px;
     width: 280px;
 }
 
 /* The popup form - hidden by default */
 .create_board {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-
-.create_project {
     display: none;
     position: fixed;
     bottom: 0;
